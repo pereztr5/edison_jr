@@ -1,0 +1,8 @@
+Import('*')
+
+INC = [ '#/vm/inc']
+
+LIBS = [ 'libminiat' ]
+
+buildProgram("miniat_edisonJr", ["edisonJr.c", "led_block.c", "sevseg_display.c"], CPPPATH=INC, LIBS=LIBS)
+buildMash('assembly.asm')
