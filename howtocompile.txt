@@ -1,0 +1,1 @@
+run scons in home dir
