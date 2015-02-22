@@ -15,16 +15,22 @@ mash assembly.asm
 
 int main(int argc, char *argv[])
 {
+    m_bus *bus_state;
       
-      miniat *iMiniAT = miniat_file_new(argv[1]);
+    miniat *iMiniAT = miniat_file_new(argv[1]);
 
-      led_block *ledBlock = led_block_new(0x4000);
-      sevseg_display *sevsegDisplay = sevseg_display_new(0x400A);
+    bus_state = miniat_conector_bus_get(iMiniAT);
+    
+    led_block *ledBlock = led_block_new(0x4000);
+    sevseg_display *sevsegDisplay = sevseg_display_new(0x400A);
 
-      led_block_bus_connector_set(ledBlock, miniat_conector_bus_get(iMiniAT));
-      sevseg_display_bus_connector_set(sevsegDisplay, miniat_conector_bus_get(iMiniAT));
+    led_block_bus_connector_set(ledBlock, bus_state);
+    sevseg_display_bus_connector_set(sevsegDisplay, bus_state);
 
-
+    
+    
+    
+    
       printf("Welcome to Edison Jr.!\n");
 
       while(1)
@@ -34,7 +40,6 @@ int main(int argc, char *argv[])
             sevseg_display_clock(sevsegDisplay);
             led_block_clock(ledBlock);
 
-            led_block_set_bus(ledBlock,  miniat_pins_bus_get(iMiniAT));
             //portA = miniat_pins_get_gpio_port(iMiniAT, m_gpio_id_A);
             
 
