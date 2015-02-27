@@ -1,54 +1,76 @@
 /*
-EdisonJr
-
-gcc -I "../../../../out/vm/inc/miniat/" -c EdisonJr.c 
-gcc -o EdisonJr -L "../../../../out/lib/" EdisonJr.o -lminiat
-mash assembly.asm 
+#
+# EdisonJr
+#
+# Code for the Edison Jr!
+#
+# This is a virtual microprocessor experiment board!
+# 
 */
+
+// Libraries
 
 #include <stdio.h>
 #include <stdlib.h>
 
+// Headers
+
+#include "/usr/local/include/SDL2/SDL.h"
 #include "miniat/miniat.h"
 #include "led_block.h"
 #include "sevseg_display.h"
 
+// Memory addresses
+
+#define LED_ADDRESS     0x4000
+#define SEVSEG_ADRESS   0x400A
+
+/*
+#
+# MAIN 
+#
+# 
+# 
+*/
+
 int main(int argc, char *argv[])
 {
-    m_bus *bus_state;
+    /*
+    Creating instances of peripherals and miniat.
+
+    This is simply allocating memory using the defined addresses on the define
+    statements
+    */
       
     miniat *iMiniAT = miniat_file_new(argv[1]);
 
-    bus_state = miniat_conector_bus_get(iMiniAT);
-    
-    led_block *ledBlock = led_block_new(0x4000);
-    sevseg_display *sevsegDisplay = sevseg_display_new(0x400A);
+    led_block *ledBlock = led_block_new(LED_ADDRESS);
+    sevseg_display *sevsegDisplay = sevseg_display_new(SEVSEG_ADRESS);
 
-    led_block_bus_connector_set(ledBlock, bus_state);
-    sevseg_display_bus_connector_set(sevsegDisplay, bus_state);
+    // Connecting peripherals to the miniat's bus
 
-    
-    
-    
-    
-      printf("Welcome to Edison Jr.!\n");
+    led_block_bus_connector_set(ledBlock, miniat_conector_bus_get(iMiniAT));
+    sevseg_display_bus_connector_set(sevsegDisplay, miniat_conector_bus_get(iMiniAT));
 
-      while(1)
-      {
-            m_wyde portA;
-            miniat_clock(iMiniAT);
-            sevseg_display_clock(sevsegDisplay);
-            led_block_clock(ledBlock);
+    // This is the main loop. This is what keeps everything clocking (updating)
 
-            //portA = miniat_pins_get_gpio_port(iMiniAT, m_gpio_id_A);
+    while(1)
+    {
+        //m_wyde portA, portB;
+
+        // Clocks
+
+        miniat_clock(iMiniAT);
+        sevseg_display_clock(sevsegDisplay);
+        led_block_clock(ledBlock);
+
             
-
-            printf("%d%d%d%d%d\n", portA.bit4, portA.bit3, portA.bit2, portA.bit1, portA.bit0);
-      }
+    }
       
+    // Memory cleaning
 
-      sevseg_display_free(sevsegDisplay);
-      led_block_free(ledBlock);
-      miniat_free(iMiniAT);
-      return 0; 
+    sevseg_display_free(sevsegDisplay);
+    led_block_free(ledBlock);
+    miniat_free(iMiniAT);
+    return 0; 
 }

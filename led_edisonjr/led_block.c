@@ -109,14 +109,40 @@ void led_block_free(led_block *led)
 
 void led_block_clock(led_block *led)
 {
+	int flag = true;
+
 	if(led)
 	{
-		if(led -> bus -> address == led -> address)
+		if((led -> bus -> address == led -> address) && (!led -> bus -> ack) && ((int)led -> bus -> data > 0))
 		{
-			//edison_led_set_state(led, led -> bus -> data);
+			led -> bus -> ack = M_HIGH;
+			//flag = set_x_coordinate((int)led -> bus -> data);
+			printf("/");
+
+		}
+		else if(led -> bus -> ack && ((led -> bus -> address == led -> address)))
+		{
+			led -> bus -> ack = M_LOW;	
+		}
+		if((led -> bus -> address == led -> address + 1) && (!led -> bus -> ack) && ((int)led -> bus -> data > 0))
+		{
+			led -> bus -> ack = M_HIGH;
+			printf("@");
+		}
+		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 1)))
+		{
+			led -> bus -> ack = M_LOW;	
+		}
+		if((led -> bus -> address == led -> address + 2) && (!led -> bus -> ack) && ((int)led -> bus -> data > 0))
+		{
+			led -> bus -> ack = M_HIGH;
+			printf("-");
+		}
+		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 2)))
+		{
+			led -> bus -> ack = M_LOW;	
 		}
 	}
-
 	return;
 }
 
@@ -135,3 +161,5 @@ void led_block_set_bus(led_block *led, m_bus bus)
 	}
 	return;
 }
+
+
