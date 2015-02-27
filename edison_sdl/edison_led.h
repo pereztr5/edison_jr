@@ -1,11 +1,7 @@
 #ifndef _EDISON_LED_H_
 #include "/usr/include/SDL2/SDL.h"
 #include <stdbool.h>
-
-#ifndef _DEF_UINT_
-#define _DEF_UINT_
-typedef unsigned int uint;
-#endif
+#include "edison_util.h"
 
 /**
  * Contains state information for LEDs

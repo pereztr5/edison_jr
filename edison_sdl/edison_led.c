@@ -5,6 +5,7 @@ edison_led* edison_create_led(int pos_x, int pos_y, uint r, uint g, uint b)
 	edison_led* led = malloc(sizeof(edison_led));
 	edison_led_set_state(led, 0);
 	edison_led_set_position(led, pos_x, pos_y);
+	edison_led_set_color(led, r, g, b);
 	return led;
 }
 

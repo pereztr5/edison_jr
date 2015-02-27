@@ -1,16 +1,10 @@
 #ifndef _EDISON_SDL_H_
 #include "/usr/include/SDL2/SDL.h"
 #include <stdbool.h>
+#include "edison_util.h"
 #include "edison_led.h"
+#include "edison_button.h"
 
-#ifndef _DEF_UINT_
-#define _DEF_UINT_
-typedef unsigned int uint;
-#endif
-
-/**
- * 
- */
 /**
  * Contains state information for the Edison Jr. board.
  * \param led_list An array of LEDs added to the board.
@@ -21,12 +15,14 @@ typedef struct edison_board
 {
 	edison_led* led_list[100];
 	uint led_count;
-	//edison_switch* switch_list[100];
-	//uint switch_count;
+	edison_button* button_list[100];
+	uint button_count;
 	SDL_Point board_size;
 	SDL_Window* window;
-	SDL_Surface* board_surface
-;} edison_board;
+	SDL_Surface* board_surface;
+	SDL_Renderer* renderer;
+	edison_texture* bg_texture;
+} edison_board;
 
 
 /**
@@ -43,9 +39,10 @@ void edison_destroy_board(edison_board* board);
 
 /**
  * Polls for events, handling clicking of switches and buttons
+ * \param board The Edison Jr. board to check for events
  * \returns void
  */
-void edison_poll_events();
+void edison_poll_events(edison_board* board);
 
 /**
  * Render the Edison Jr. board.
@@ -74,7 +71,12 @@ edison_led* edison_get_led(edison_board* board, uint id);
  * \param board The Edison Jr board to render to.
  * \returns void
  */
- void edison_render_leds(edison_board* board);
+void edison_render_leds(edison_board* board);
+
+void edison_add_button(edison_board* baord, edison_button* button);
+edison_button* edison_get_button(edison_board* baord, uint id);
+void edison_render_buttons(edison_board* board);
+
 
 
 #define _EDISON_SDL_H_

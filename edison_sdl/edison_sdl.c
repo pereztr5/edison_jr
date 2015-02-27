@@ -26,10 +26,18 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 		}
 		else
 		{
-			SDL_Point size;
-			size.x = size_x;
-			size.y = size_y;
-			board->board_surface = SDL_GetWindowSurface(board->window);
+			// Init renderer
+			board->renderer = SDL_CreateRenderer(board->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			if(board->renderer == NULL)
+			{
+				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+				free(board);
+				return NULL;
+			}
+			else
+			{
+            }
+            SDL_Point size = {size_x, size_y};
 			board->board_size = size;
 		}
 	}
@@ -47,6 +55,7 @@ void edison_destroy_board(edison_board* board)
 {
 	// Cleanup
 	SDL_FreeSurface(board->board_surface);
+	SDL_DestroyRenderer(board->renderer);
 	SDL_DestroyWindow(board->window);
 	SDL_Quit();
 	free(board->led_list);
@@ -87,15 +96,53 @@ void edison_render_leds(edison_board* board)
 	// Render all LEDs
 	for(; i < board->led_count; i++)
 	{
-		SDL_Rect rect;
 		edison_led* led = board->led_list[i];
 
-		rect.x = led->position.x;
-		rect.y = led->position.y;
-		rect.w = 35;
-		rect.h = 35;
+		SDL_Color temp = led->color;
+		
+		if(!led->state)
+		{
+			temp.r *= .5;
+			temp.g *= .5;
+			temp.b *= .5;
+		}
 
-		SDL_FillRect(board->board_surface, &rect, SDL_MapRGB(board->board_surface->format, led->color.r, led->color.g, led->color.b));	
+		SDL_Rect rect = {led->position.x, led->position.y, 35, 35};
+		SDL_SetRenderDrawColor(board->renderer, temp.r,  temp.g, temp.b, 255);
+		SDL_RenderFillRect(board->renderer, &rect);	
+	}
+}
+
+void edison_add_button(edison_board* board, edison_button* button)
+{
+	if(board->button_count < 100)
+		board->button_list[board->button_count++] = button;
+}
+
+edison_button* edison_get_button(edison_board* board, uint id)
+{
+	if(id < board->button_count)
+	{
+		return board->button_list[id];
+	}
+
+	return NULL;
+}
+void edison_render_buttons(edison_board* board)
+{
+	// Render all buttons
+	uint i = 0;
+	for(; i < board->button_count; i++)
+	{
+		edison_button* button = board->button_list[i];
+		SDL_Color temp = {255, 0, 0, 255};
+		if(button->pressed)
+		{
+			temp.b = 255;
+		}
+
+		SDL_SetRenderDrawColor(board->renderer, temp.r, temp.g, temp.b, 255);
+		SDL_RenderFillRect(board->renderer, &button->hitbox);	
 	}
 }
 
@@ -104,12 +151,62 @@ void edison_render_leds(edison_board* board)
  */
 void edison_render(edison_board* board)
 {
+	SDL_SetRenderDrawColor(board->renderer, 0, 255, 0, 255);
+	SDL_RenderClear(board->renderer);
+	
 	edison_render_leds(board);
-	SDL_UpdateWindowSurface(board->window);
+	edison_render_buttons(board);
+	SDL_RenderPresent(board->renderer);
 }
 
-void edison_poll_events()
+void edison_poll_events(edison_board* board)
 {
 	SDL_Event e;
+	int i = 0;
+	while(SDL_PollEvent(&e) != 0)
+	{
+		switch(e.type)
+		{
+			case SDL_QUIT:
+			break;
+			case SDL_MOUSEBUTTONDOWN:
+
+			i = 0;
+			for(; i < board->button_count; i++)
+			{
+				// Check for button hit
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				SDL_Rect hitbox = board->button_list[i]->hitbox;
+
+				if(x > hitbox.x && x < (hitbox.x + hitbox.w) &&
+					y > hitbox.y && y < (hitbox.y + hitbox.h))
+				{
+					//the button is pressed
+					edison_button_set_state(board->button_list[i], 1);
+				}
+			}
+			break;
+
+			case SDL_MOUSEBUTTONUP:
+
+			i = 0;
+			for(; i < board->button_count; i++)
+			{
+				// Check for button hit
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				SDL_Rect hitbox = board->button_list[i]->hitbox;
+
+				if(x > hitbox.x && x < (hitbox.x + hitbox.w) &&
+					y > hitbox.y && y < (hitbox.y + hitbox.h))
+				{
+					//the button is pressed
+					edison_button_set_state(board->button_list[i], 0);
+				}
+			}
+			break;
+		}
+	}
 	
 }
