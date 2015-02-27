@@ -4,6 +4,7 @@
 #include "edison_util.h"
 #include "edison_led.h"
 #include "edison_button.h"
+#include "edison_seven_segment.h"
 
 /**
  * Contains state information for the Edison Jr. board.
@@ -17,6 +18,8 @@ typedef struct edison_board
 	uint led_count;
 	edison_button* button_list[100];
 	uint button_count;
+	edison_sevenseg* sevenseg_list[20];
+	uint sevenseg_count;
 	SDL_Point board_size;
 	SDL_Window* window;
 	SDL_Surface* board_surface;
@@ -73,10 +76,13 @@ edison_led* edison_get_led(edison_board* board, uint id);
  */
 void edison_render_leds(edison_board* board);
 
-void edison_add_button(edison_board* baord, edison_button* button);
+void edison_add_button(edison_board* board, edison_button* button);
 edison_button* edison_get_button(edison_board* baord, uint id);
 void edison_render_buttons(edison_board* board);
 
+void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg);
+edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
+void edison_render_sevensegs(edison_board* board);
 
 
 #define _EDISON_SDL_H_

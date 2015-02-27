@@ -146,6 +146,34 @@ void edison_render_buttons(edison_board* board)
 	}
 }
 
+void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg)
+{
+	if(board->sevenseg_count < 20)
+		board->sevenseg_list[board->sevenseg_count++] = sevenseg;
+}
+edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
+{
+	if(id < board->sevenseg_count)
+	{
+		return board->sevenseg_list[id];
+	}
+
+	return NULL;
+}
+void edison_render_sevensegs(edison_board* board);
+{
+	uint i = 0;
+	uint j = 0;
+	for(; i < board->sevenseg_count; i++)
+	{
+		edison_sevenseg* sevenseg = board->sevenseg_list[i];
+		for(j=0; j < 8; j++){
+			SDL_SetRenderDrawColor(board->renderer, 224 * sevenseg->status[j] + 31, 0, 0, 255);
+			SDL_RenderFillRect(board->renderer, &sevenseg->segs[j]);
+		}
+	}
+}
+
 /**
  * Renders the given board
  */
