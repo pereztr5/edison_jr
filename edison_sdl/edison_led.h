@@ -6,13 +6,7 @@
 /**
  * Contains state information for LEDs
  */
-typedef struct edison_led
-{
-	uint id;
-	bool state;
-	SDL_Color color;
-	SDL_Point position;
-} edison_led;
+typedef struct edison_led edison_led;
 
 /**
  * Creates a new instance of an LED for use.
@@ -46,6 +40,11 @@ void edison_led_set_position(edison_led* led, int pos_x, int pos_y);
  * \returns void
  */
 void edison_led_set_color(edison_led* led, uint r, uint g, uint b);
+
+/**
+ * 
+ */
+void edison_led_set_id(edison_led* led, uint id);
 
 #define _EDISON_LED_H_
 #endif

@@ -1,5 +1,13 @@
 #include "edison_led.h"
 
+struct edison_led
+{
+	uint id;
+	bool state;
+	SDL_Color color;
+	SDL_Point position;
+};
+
 edison_led* edison_create_led(int pos_x, int pos_y, uint r, uint g, uint b)
 {
 	edison_led* led = malloc(sizeof(edison_led));
@@ -29,4 +37,9 @@ void edison_led_set_color(edison_led* led, uint r, uint g, uint b)
 	new_color.g = g;
 	new_color.b = b;
 	led->color = new_color;
+}
+
+void edison_led_set_id(edison_led* led, uint id)
+{
+	led->id = id;
 }

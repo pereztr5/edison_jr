@@ -1,4 +1,19 @@
 #include "edison_sdl.h"
+
+struct edison_board
+{
+	edison_led* led_list[EDISON_LED_MAX];
+	uint led_count;
+	edison_button* button_list[EDISON_BUTTON_MAX];
+	uint button_count;
+	SDL_Point board_size;
+	SDL_Window* window;
+	SDL_Surface* board_surface;
+	SDL_Renderer* renderer;
+	edison_texture* bg_texture;
+};
+
+
 /**
  * Creates a board
  */
@@ -36,6 +51,7 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 			}
 			else
 			{
+				// load background image
             }
             SDL_Point size = {size_x, size_y};
 			board->board_size = size;
@@ -58,8 +74,6 @@ void edison_destroy_board(edison_board* board)
 	SDL_DestroyRenderer(board->renderer);
 	SDL_DestroyWindow(board->window);
 	SDL_Quit();
-	free(board->led_list);
-	//delete board->switch_list;
 	free(board);
 }
 
@@ -68,7 +82,7 @@ void edison_destroy_board(edison_board* board)
  */
 void edison_add_led(edison_board* board, edison_led* led)
 {
-	if(board->led_count < 100)
+	if(board->led_count < EDISON_LED_MAX)
 		board->led_list[board->led_count++] = led;
 }
 
@@ -107,7 +121,7 @@ void edison_render_leds(edison_board* board)
 			temp.b *= .5;
 		}
 
-		SDL_Rect rect = {led->position.x, led->position.y, 35, 35};
+		SDL_Rect rect = {led->position.x, led->position.y, EDISON_LED_SIZE, EDISON_LED_SIZE};
 		SDL_SetRenderDrawColor(board->renderer, temp.r,  temp.g, temp.b, 255);
 		SDL_RenderFillRect(board->renderer, &rect);	
 	}
@@ -115,7 +129,7 @@ void edison_render_leds(edison_board* board)
 
 void edison_add_button(edison_board* board, edison_button* button)
 {
-	if(board->button_count < 100)
+	if(board->button_count < EDISON_BUTTON_MAX)
 		board->button_list[board->button_count++] = button;
 }
 
@@ -146,12 +160,21 @@ void edison_render_buttons(edison_board* board)
 	}
 }
 
+void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat)
+{
+	uint i = 0;
+	for(; i < ((int)mat->led_count_x) * ((int)mat->led_count_y); i++)
+	{
+		edison_led* led = mat->led_grid[i];
+		board->led_list[board->led_count++] = led;
+	}
+}
 /**
  * Renders the given board
  */
 void edison_render(edison_board* board)
 {
-	SDL_SetRenderDrawColor(board->renderer, 0, 255, 0, 255);
+	SDL_SetRenderDrawColor(board->renderer, 0, 0, 0, 0);
 	SDL_RenderClear(board->renderer);
 	
 	edison_render_leds(board);
@@ -159,7 +182,7 @@ void edison_render(edison_board* board)
 	SDL_RenderPresent(board->renderer);
 }
 
-void edison_poll_events(edison_board* board)
+bool edison_poll_events(edison_board* board)
 {
 	SDL_Event e;
 	int i = 0;
@@ -168,6 +191,7 @@ void edison_poll_events(edison_board* board)
 		switch(e.type)
 		{
 			case SDL_QUIT:
+				return false;
 			break;
 			case SDL_MOUSEBUTTONDOWN:
 
@@ -208,5 +232,6 @@ void edison_poll_events(edison_board* board)
 			break;
 		}
 	}
+	return true;
 	
 }
