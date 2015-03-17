@@ -5,8 +5,12 @@
 #include "edison_util.h"
 #include "edison_led.h"
 #include "edison_button.h"
+<<<<<<< HEAD
 #include "edison_led_matrix.h"
 
+=======
+#include "edison_seven_segment.h"
+>>>>>>> ce91ef6b4e2e464cd7ae0e638e24c155d341556c
 
 /**
  * Contains state information for the Edison Jr. board.
@@ -15,7 +19,24 @@
  * \param board_size The
   size of the drawn window, in pixels.
  */
+<<<<<<< HEAD
 typedef struct edison_board edison_board;
+=======
+typedef struct edison_board
+{
+	edison_led* led_list[100];
+	uint led_count;
+	edison_button* button_list[100];
+	uint button_count;
+	edison_sevenseg* sevenseg_list[20];
+	uint sevenseg_count;
+	SDL_Point board_size;
+	SDL_Window* window;
+	SDL_Surface* board_surface;
+	SDL_Renderer* renderer;
+	edison_texture* bg_texture;
+} edison_board;
+>>>>>>> ce91ef6b4e2e464cd7ae0e638e24c155d341556c
 
 
 /**
@@ -66,6 +87,7 @@ edison_led* edison_get_led(edison_board* board, uint id);
  */
 void edison_render_leds(edison_board* board);
 
+<<<<<<< HEAD
 /**
  * Adds a button to the Edison Jr. board.
  * \param board The Edison Jr. board we are adding to.
@@ -79,6 +101,9 @@ void edison_add_button(edison_board* baord, edison_button* button);
  * \param id The unique ID of the button to look for.
  * \returns A pointer to the desired button, or NULL if it doesn't exist.
  */
+=======
+void edison_add_button(edison_board* board, edison_button* button);
+>>>>>>> ce91ef6b4e2e464cd7ae0e638e24c155d341556c
 edison_button* edison_get_button(edison_board* baord, uint id);
 
 /**
@@ -88,6 +113,7 @@ edison_button* edison_get_button(edison_board* baord, uint id);
  */
 void edison_render_buttons(edison_board* board);
 
+<<<<<<< HEAD
 /**
  * Adds an LED matrix to the Edison Jr. board.
  * \param board The Edison Jr. board we are adding to.
@@ -95,6 +121,11 @@ void edison_render_buttons(edison_board* board);
  * \returns void
  */
 void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat);
+=======
+void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg);
+edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
+void edison_render_sevensegs(edison_board* board);
+>>>>>>> ce91ef6b4e2e464cd7ae0e638e24c155d341556c
 
 
 #define _EDISON_SDL_H_

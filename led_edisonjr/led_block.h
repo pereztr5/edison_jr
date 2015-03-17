@@ -12,8 +12,8 @@
 typedef struct led_block led_block;
 
 /*
-#Creates a new LED peripheral, setting it's address
-#to "address" for the miniAT
+# Creates a new LED peripheral, setting it's address
+# to "address" for the miniAT
 #
 #
 #
@@ -22,8 +22,8 @@ typedef struct led_block led_block;
 extern led_block *led_block_new(m_uword address);
 
 /*
-#Free's the memory address for the 7 segment display passed
-#as argument
+# Free's the memory address for the LED passed
+# as argument
 #
 #
 #
@@ -32,9 +32,9 @@ extern led_block *led_block_new(m_uword address);
 extern void led_block_free(led_block *led);
 
 /*
-#Clock function
+# Clock function
 #
-#This will update the current value for the LED pin
+# This will update the current value for the LED pin
 #
 #
 */
@@ -42,7 +42,7 @@ extern void led_block_free(led_block *led);
 extern void led_block_clock(led_block *led);
 
 /*
-#Tries to connect the LED with the bus
+# Tries to connect the LED with the bus
 #
 #
 #
@@ -52,7 +52,7 @@ extern void led_block_clock(led_block *led);
 extern void led_block_bus_connector_set(led_block *led, m_bus *bus);
 
 /*
-#Sets the LED block's bus
+# Sets the LED block's bus
 #
 #
 #

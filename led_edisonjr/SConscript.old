@@ -1,0 +1,8 @@
+Import('*')
+
+INC = [ '#/vm/inc', '/usr/local/include/SDL2' ]
+
+LIBS = [ 'libminiat', 'SDL2' ]
+
+buildProgram("miniat_edisonJr", ["edisonJr.c", "led_block.c", "sevseg_display.c", "button_block.c"], CPPPATH=INC, LIBS=LIBS)
+buildMash('assembly.asm')

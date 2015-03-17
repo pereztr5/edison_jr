@@ -1,0 +1,86 @@
+Edison Jr Coding Standard
+Coding Standard
+
+Tab size: 4 spaces
+Max characters per line: 80 characters
+
+Commenting
+
+Block Style:
+/*
+ * This type of commenting will be used to describe many lines of code
+ * like functions or complex algorithm. Sentences will be written with 
+ * traditional capitalization and punctuation.
+ *
+ */
+
+Critical-Line:
+/*
+ * The next line (or the comment itself) is important
+ */
+
+Next-Line:
+/* Short description of next line. Nothing important to note */
+
+In-Line:
+// Used to comment out a certain line to debug or short description
+
+Naming Conventions
+
+Variable names should clearly describe what their values mean:
+int counter = 0;
+
+Use and "_" to separate words when naming long variables or functions:
+void increment_counter(int counter);
+
+A variable and function name should be completely lowercase:
+void create_new_button();
+
+Constants will be in all-caps:
+#define MEMORY_ADDRESS 0x4000
+
+Single letter variables exceptions:
+"i", "j", and "k" are loop counters or temporary array indexes
+"x", "y", and "z" are coordinate values
+
+Boolean variables should be named to reflect the true condition
+
+Function names should describe what the function does:
+void print_list();
+int convert_to_decimal(int binary_number);
+
+Files
+
+A header file will have the the same base filename as an associated source file
+
+Header files should never define functions or variables
+
+Header files should only #inlcude what is necessary to allow a file that
+includes it to compile. Associated source files will always #include the
+header of the same name, but should #include files whose resources are used
+within the source even if they are already included in that header.
+
+Formatting
+
+Block statements encapsulated with braces should place the opening brace on
+the next line and the closing brace at the same column position as the 
+beginning of the conditional statement and opening brace.
+
+if(led_is_on)
+{
+    statement1;
+}
+
+void count_char(arg1)
+{
+    statement1;
+}
+
+Conditional statements (such as if, else, while, for, switch, etc) should 
+always be followed by a block statement, even if they contain only one line
+statement.
+
+References
+1:Williams Confer, coding_standard_c.odt
+
+
