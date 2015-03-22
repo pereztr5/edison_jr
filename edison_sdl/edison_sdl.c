@@ -160,7 +160,6 @@ void edison_render_buttons(edison_board* board)
 	}
 }
 
-<<<<<<< HEAD
 void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat)
 {
 	uint i = 0;
@@ -170,7 +169,7 @@ void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat)
 		board->led_list[board->led_count++] = led;
 	}
 }
-=======
+
 void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg)
 {
 	if(board->sevenseg_count < 20)
@@ -199,7 +198,6 @@ void edison_render_sevensegs(edison_board* board);
 	}
 }
 
->>>>>>> ce91ef6b4e2e464cd7ae0e638e24c155d341556c
 /**
  * Renders the given board
  */
