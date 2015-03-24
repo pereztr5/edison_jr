@@ -6,6 +6,8 @@ struct edison_board
 	uint led_count;
 	edison_button* button_list[EDISON_BUTTON_MAX];
 	uint button_count;
+	edison_sevenseg* sevenseg_list[EDISON_SEVEN_SEG_MAX];
+	uint sevenseg_count;
 	SDL_Point board_size;
 	SDL_Window* window;
 	SDL_Surface* board_surface;
