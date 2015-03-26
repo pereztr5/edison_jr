@@ -1,9 +1,9 @@
 /*
-# C file for the Button Block peripheral
-#
-#
-#
-*/
+ * C file for the Button Block peripheral
+ *
+ *
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,11 +20,11 @@ struct button_block
 };
 
 /*
-# Function for creating a new Button block
-#
-# Allocates the memory space for the peripheral,
-#
-*/
+ * Function for creating a new Button block
+ *
+ * Allocates the memory space for the peripheral,
+ *
+ */
 
 button_block *button_block_new(m_uword address)
 {
@@ -50,10 +50,10 @@ button_block *button_block_new(m_uword address)
 }
 
 /*
-#Connects the Button block to the bus
-#
-#
-*/
+ * Connects the Button block to the bus
+ *
+ *
+ */
 
 void button_block_bus_connector_set(button_block *buttons, m_bus *bus)
 {
@@ -73,11 +73,11 @@ void button_block_bus_connector_set(button_block *buttons, m_bus *bus)
 }
 
 /*
-# Free's the Button block
-#
-# The command free simply does the opposite of memory allocation (free's memory location)
-#
-*/
+ * Free's the Button block
+ *
+ * The command free simply does the opposite of memory allocation (free's memory location)
+ *
+ */
 
 void button_block_free(button_block *buttons)
 {
@@ -93,11 +93,11 @@ void button_block_free(button_block *buttons)
 }
 
 /*
-# Updates the current state of the Button block
-#
-#
-#
-*/
+ * Updates the current state of the Button block
+ *
+ *
+ *
+ */
 
 void button_block_clock(button_block *buttons)
 {
@@ -108,21 +108,21 @@ void button_block_clock(button_block *buttons)
 			buttons -> bus -> ack = M_HIGH;
 
 			/*
-			
-			THIS IS WHERE THE EVENT HANDLER IS PUT!
-
-			
-			EVERYTIME THE BUTTON CLOCKS, IT READS THE STATES OF THE BUTTONS
-
-			FUNCTION SHOULD LOOK SOMETHING LIKE THIS
-
-			buttons -> bus -> data = event_handler_function();
-
-			Using this idea, the event handler function should read which button was pressed, and return the
-			current state of all the buttons as a whole. Then that result is sent to the bus, and the assembly
-			programer can read it through the assigned memory address.
-
-			*/
+			 *
+			 * THIS IS WHERE THE EVENT HANDLER IS PUT!
+			 *
+			 *
+			 * EVERYTIME THE BUTTON CLOCKS, IT READS THE STATES OF THE BUTTONS
+			 *
+			 * FUNCTION SHOULD LOOK SOMETHING LIKE THIS
+			 *
+			 * buttons -> bus -> data = event_handler_function();
+			 *
+			 * Using this idea, the event handler function should read which button was pressed, and return the
+			 * current state of all the buttons as a whole. Then that result is sent to the bus, and the assembly
+			 * programer can read it through the assigned memory address.
+			 *
+			 */
 			
 
 		}
@@ -135,11 +135,11 @@ void button_block_clock(button_block *buttons)
 }
 
 /*
-# Gets the Buttons block's bus
-#
-#
-#
-*/
+ * Gets the Buttons block's bus
+ *
+ *
+ *
+ */
 
 m_bus button_block_get_bus(button_block *buttons)
 {
