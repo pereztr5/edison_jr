@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
       
     // Memory cleaning
 
+    edison_destroy_board(board);
     sevseg_display_free(sevsegDisplay);
     led_block_free(ledBlock);
     button_block_free(btnBlock);
