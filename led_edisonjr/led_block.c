@@ -114,7 +114,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 
 	if(led)
 	{
-		if((led -> bus -> address == led -> address) && (!led -> bus -> ack))
+		if((led -> bus -> req) && (led -> bus -> address == led -> address) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 			edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);
@@ -124,7 +124,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		{
 			led -> bus -> ack = M_LOW;	
 		}
-		if((led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
+		if((led -> bus -> req) && (led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 			edison_led_matrix_set_cursor_y(matrix, (int)led -> bus -> data);
@@ -133,7 +133,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		{
 			led -> bus -> ack = M_LOW;	
 		}
-		if((led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
+		if((led -> bus -> req) && (led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 
