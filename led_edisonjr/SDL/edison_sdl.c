@@ -1,4 +1,5 @@
 #include "edison_sdl.h"
+#include <stdio.h>
 
 struct edison_board
 {
@@ -132,7 +133,10 @@ void edison_render_leds(edison_board* board)
 void edison_add_button(edison_board* board, edison_button* button)
 {
 	if(board->button_count < EDISON_BUTTON_MAX)
-		board->button_list[board->button_count++] = button;
+	{
+		board -> button_list[board->button_count++] = button;
+	}
+	return;
 }
 
 edison_button* edison_get_button(edison_board* board, uint id)
@@ -147,18 +151,20 @@ edison_button* edison_get_button(edison_board* board, uint id)
 void edison_render_buttons(edison_board* board)
 {
 	// Render all buttons
-	uint i = 0;
-	for(; i < board->button_count; i++)
+	
+	for(int i = 0; i < board->button_count; i++)
 	{
 		edison_button* button = board->button_list[i];
 		SDL_Color temp = {255, 0, 0, 255};
+		
 		if(button->pressed)
 		{
+
 			temp.b = 255;
 		}
-
+		
 		SDL_SetRenderDrawColor(board->renderer, temp.r, temp.g, temp.b, 255);
-		SDL_RenderFillRect(board->renderer, &button->hitbox);	
+		SDL_RenderFillRect(board->renderer, &button->hitbox);
 	}
 }
 
@@ -207,7 +213,6 @@ void edison_render(edison_board* board)
 {
 	SDL_SetRenderDrawColor(board->renderer, 0, 0, 0, 0);
 	SDL_RenderClear(board->renderer);
-	
 	edison_render_leds(board);
 	edison_render_buttons(board);
 	SDL_RenderPresent(board->renderer);

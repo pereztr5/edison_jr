@@ -21,26 +21,53 @@
 	MOVI R0, 0
 	MOVI R1, 0
 	MOVI R2, 1
-	MOVI R3, 31
-	MOVI R4, 15	
+	MOVI R3, 32
+	MOVI R4, 16
+	MOVI R6, 1
+	MOVI R7, 2
+	MOVI R8, 4
+	MOVI R9, 8
 
 !loop
-	STOR R0, [CURSORX]
-	STOR R1, [CURSORY]
-	STOR R2, [LEDCOLOR]
-	ADD R0, R0, (1)
-	ADD R1, R1, (1)
-
-	BRAE R0, R3, [!resetx]
-	BRAE R1, R4, [!resety]
+	LOAD R5, [READBTN]
+	
+	BRAE R5, R6, [!case1]
+    BRAE R5, R7, [!case2]
+    BRAE R5, R8, [!case3]
+    BRAE R5, R9, [!case4]
     BRA [!loop]
 
-!resetx
-	MOVI R0, 0
+!case1
+	MOVI R2, 1
+	STOR R2, [LEDCOLOR]
+	ADD R1, R1, (1)
+	STOR R1, [CURSORY]
+
 	BRA [!loop]
 
-!resety
-	MOVI R1, 0
+!case2
+	MOVI R2, 0
+	STOR R2, [LEDCOLOR]
+	SUB R1, R1, (1)
+	STOR R1, [CURSORY]
+
 	BRA [!loop]
 
-#	BRAE R1, R0, [!label] This jumps if equal to label
+!case3
+
+	MOVI R2, 1
+	STOR R2, [LEDCOLOR]
+	ADD R0, R0, (1)
+	STOR R0, [CURSORX]
+
+	BRA [!loop]
+
+!case4
+
+	MOVI R2, 0
+	STOR R2, [LEDCOLOR]
+	SUB R0, R0, (1)
+	STOR R0, [CURSORX]
+	
+	BRA [!loop]
+

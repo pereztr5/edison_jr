@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <miniat/miniat.h>
 #include "button_block.h"
@@ -99,32 +100,22 @@ void button_block_free(button_block *buttons)
  *
  */
 
-void button_block_clock(button_block *buttons)
+void button_block_clock(button_block *buttons, edison_button *sdl_buttons[8])
 {
+	bool btnStates[8];
+
 	if(buttons)
 	{
-		if((buttons -> bus -> address == buttons -> address) && (!buttons -> bus -> ack))
+		if((buttons -> bus -> req) && (buttons -> bus -> address == buttons -> address) && (!buttons -> bus -> ack))
 		{
 			buttons -> bus -> ack = M_HIGH;
 
-			/*
-			 *
-			 * THIS IS WHERE THE EVENT HANDLER IS PUT!
-			 *
-			 *
-			 * EVERYTIME THE BUTTON CLOCKS, IT READS THE STATES OF THE BUTTONS
-			 *
-			 * FUNCTION SHOULD LOOK SOMETHING LIKE THIS
-			 *
-			 * buttons -> bus -> data = event_handler_function();
-			 *
-			 * Using this idea, the event handler function should read which button was pressed, and return the
-			 * current state of all the buttons as a whole. Then that result is sent to the bus, and the assembly
-			 * programer can read it through the assigned memory address.
-			 *
-			 */
-			
+			for(int i = 0; i < 8; i++)
+			{
+				btnStates[i] = edison_button_get_state(sdl_buttons[i]);
+			}
 
+			buttons -> bus -> data = boolToDec(btnStates);
 		}
 		else if(buttons -> bus -> ack && ((buttons -> bus -> address == buttons -> address)))
 		{
@@ -151,4 +142,25 @@ m_bus button_block_get_bus(button_block *buttons)
 	return *(buttons -> bus);
 }
 
+/*
+ * boolToBin
+ *
+ * This functions transforms an array of booleans
+ * in a binary integer
+ *
+ */
+
+int boolToDec(bool *states)
+{
+	int number;
+
+	for(int i = 0; i < (sizeof(states) / sizeof(states[0])); i++)
+	{
+		if(states[i])
+		{
+			number += pow(2, i);	
+		}
+	}
+	return number;
+}
 

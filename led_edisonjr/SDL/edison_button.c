@@ -7,6 +7,7 @@ edison_button* edison_create_button(int pos_x, int pos_y, uint width, uint heigh
 	edison_button_set_size(button, width, height);
 	edison_button_set_state(button, 0);
 
+	return button;
 }
 void edison_button_set_position(edison_button* button, int pos_x, int pos_y)
 {

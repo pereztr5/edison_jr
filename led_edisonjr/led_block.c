@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <miniat/miniat.h>
 #include "led_block.h"
@@ -117,8 +118,12 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		if((led -> bus -> req) && (led -> bus -> address == led -> address) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
-			edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);
 
+			if((int)led -> bus -> data < 32 && (int)led -> bus -> data >= 0)
+			{
+				edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);
+				printf("%d", led -> bus -> data);
+			}
 		}
 		else if(led -> bus -> ack && ((led -> bus -> address == led -> address)))
 		{
@@ -127,13 +132,17 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		if((led -> bus -> req) && (led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
-			edison_led_matrix_set_cursor_y(matrix, (int)led -> bus -> data);
+
+			if((int)led -> bus -> data < 16 && (int)led -> bus -> data >= 0)
+			{
+				edison_led_matrix_set_cursor_y(matrix, (int)led -> bus -> data);
+			}
 		}
 		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 1)))
 		{
 			led -> bus -> ack = M_LOW;	
 		}
-		if((led -> bus -> req) && (led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
+		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 

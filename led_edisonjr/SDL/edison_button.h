@@ -1,5 +1,4 @@
 #ifndef _EDISON_BUTTON_H_
-#define _EDISON_BUTTON_H_
 #include "/usr/local/include/SDL2/SDL.h"
 #include <stdbool.h>
 #include "edison_util.h"
@@ -18,4 +17,5 @@ void edison_button_set_size(edison_button* button, uint width, uint height);
 void edison_button_set_state(edison_button* button, bool pressed);
 bool edison_button_get_state(edison_button* button);
 
+#define _EDISON_BUTTON_H_
 #endif

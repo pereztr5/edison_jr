@@ -8,6 +8,7 @@
 #define _BUTTON_BLOCK_H_
 
 #include "miniat/miniat.h"
+#include "SDL/edison_button.h"
 
 typedef struct button_block button_block;
 
@@ -39,7 +40,7 @@ extern void button_block_free(button_block *buttons);
  *
  */
 
-extern void button_block_clock(button_block *buttons);
+extern void button_block_clock(button_block *buttons, edison_button *sdl_buttons[8]);
 
 /*
  * Tries to connect the Button Block with the bus
@@ -60,5 +61,16 @@ extern void button_block_bus_connector_set(button_block *buttons, m_bus *bus);
  */
 
 extern m_bus button_block_get_bus(button_block *buttons);
+
+/*
+ * boolToBin
+ *
+ * This functions transforms an array of booleans
+ * in a binary integer
+ *
+ */
+
+extern int boolToDec(bool *states);
+
 
 #endif 

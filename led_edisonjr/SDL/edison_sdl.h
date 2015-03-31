@@ -72,7 +72,7 @@ void edison_render_leds(edison_board* board);
  * \param button The button to add to the board.
  * \returns void
  */
-void edison_add_button(edison_board* baord, edison_button* button);
+void edison_add_button(edison_board* board, edison_button* button);
 
 /**
  * Gets a given instance of a button.

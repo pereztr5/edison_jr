@@ -23,14 +23,13 @@ edison_led_matrix* edison_create_led_matrix(uint pos_x, uint pos_y, uint size_x,
 
 	uint px = pos_x;
 	uint py = pos_y;
-	for(; i < size_y; i++)
+	for(i = 0; i < size_y; i++)
 	{
 		py = pos_y;
 		for(j = 0; j < size_x; j++)
 		{
 			edison_led* led = edison_create_led(py, px, r, g , b);
 			mat->led_grid[size_x * i + j] = led;
-			//printf("Creating LED at (%d, %d)\n", j, i);
 			py += EDISON_LED_SIZE + padding;
 		}
 		px += EDISON_LED_SIZE + padding;
