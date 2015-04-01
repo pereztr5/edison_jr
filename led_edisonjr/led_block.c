@@ -112,24 +112,30 @@ void led_block_free(led_block *led)
 void led_block_clock(led_block *led, edison_led_matrix *matrix)
 {
 	int state = 0;
+	int xCenter, yCenter;
+	int xTemp, yTemp;
 
 	if(led)
 	{
+		// CURSOR X
+
 		if((led -> bus -> req) && (led -> bus -> address == led -> address) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 
 			if((int)led -> bus -> data < 32 && (int)led -> bus -> data >= 0)
 			{
-				edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);
-				printf("%d", led -> bus -> data);
+				edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);	
 			}
 		}
 		else if(led -> bus -> ack && ((led -> bus -> address == led -> address)))
 		{
 			led -> bus -> ack = M_LOW;	
 		}
-		if((led -> bus -> req) && (led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
+
+		// CURSOR Y
+
+		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
 
@@ -142,6 +148,9 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		{
 			led -> bus -> ack = M_LOW;	
 		}
+
+		// LED COLOR
+
 		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
 		{
 			led -> bus -> ack = M_HIGH;
@@ -158,6 +167,112 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 			edison_led_matrix_set_state(matrix, state);
 		}
 		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 2)))
+		{
+			led -> bus -> ack = M_LOW;	
+		}
+
+		// CIRCLE
+
+		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 3) && (!led -> bus -> ack))
+		{
+			led -> bus -> ack = M_HIGH;
+
+			if((int)led -> bus -> data >= 1)
+			{
+				xCenter = edison_led_matrix_get_cursor_x(matrix);
+				yCenter = edison_led_matrix_get_cursor_y(matrix);
+
+				xTemp = xCenter;
+				yTemp = yCenter;
+
+				yTemp += 2;
+
+				for(int i = 0; i < 8; i++)
+				{
+					if(xTemp < 32 && xTemp >= 0 && yTemp < 16 && yTemp >= 0)
+					{
+						edison_led_matrix_set_cursor_x(matrix, xTemp);
+						edison_led_matrix_set_cursor_y(matrix, yTemp);
+						edison_led_matrix_set_state(matrix, 1);
+					}
+
+					if(i == 0 || i == 1)
+					{
+						xTemp += 1;
+						yTemp -= 1;
+					}
+					else if(i == 2 || i == 3)
+					{
+						xTemp -= 1;
+						yTemp -= 1;
+					}
+					else if(i == 4 || i == 5)
+					{
+						xTemp -= 1;
+						yTemp += 1;
+					}
+					else if(i == 6 || i == 7)
+					{
+						xTemp += 1;
+						yTemp += 1;
+					}
+				}
+
+			edison_led_matrix_set_cursor_x(matrix, xCenter);
+			edison_led_matrix_set_cursor_y(matrix, yCenter);
+			}
+		}
+		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 3)))
+		{
+			led -> bus -> ack = M_LOW;	
+		}
+
+		// SQUARE
+
+		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 4) && (!led -> bus -> ack))
+		{
+			led -> bus -> ack = M_HIGH;
+
+			if((int)led -> bus -> data >= 1)
+			{
+				xCenter = edison_led_matrix_get_cursor_x(matrix);
+				yCenter = edison_led_matrix_get_cursor_y(matrix);
+
+				xTemp = xCenter;
+				yTemp = yCenter;
+
+				yTemp += 2;
+				xTemp -= 1;
+
+				for(int i = 0; i < 16; i++)
+				{
+					edison_led_matrix_set_cursor_x(matrix, xTemp);
+					edison_led_matrix_set_cursor_y(matrix, yTemp);
+					edison_led_matrix_set_state(matrix, 1);
+					
+					if(i < 5)
+					{
+						xTemp += 1;
+					}
+					else if(i < 9)
+					{
+						yTemp -= 1;
+					}
+					else if(i < 13)
+					{
+						xTemp -= 1;
+					}
+					else
+					{
+						yTemp += 1;
+					}
+				}
+
+			edison_led_matrix_set_cursor_x(matrix, xCenter);
+			edison_led_matrix_set_cursor_y(matrix, yCenter);
+			}
+		}
+		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 4)))
 		{
 			led -> bus -> ack = M_LOW;	
 		}
