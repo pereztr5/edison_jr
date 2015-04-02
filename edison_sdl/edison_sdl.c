@@ -174,10 +174,11 @@ void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat)
 
 void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg)
 {
-	if(board->sevenseg_count < 20)
+	if(board->sevenseg_count < EDISON_SEVEN_SEG_MAX)
 		board->sevenseg_list[board->sevenseg_count++] = sevenseg;
 }
-edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
+
+edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id)
 {
 	if(id < board->sevenseg_count)
 	{
@@ -186,7 +187,8 @@ edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
 
 	return NULL;
 }
-void edison_render_sevensegs(edison_board* board);
+
+void edison_render_sevensegs(edison_board* board)
 {
 	uint i = 0;
 	uint j = 0;
@@ -210,6 +212,7 @@ void edison_render(edison_board* board)
 	
 	edison_render_leds(board);
 	edison_render_buttons(board);
+	edison_render_sevensegs(board);
 	SDL_RenderPresent(board->renderer);
 }
 
