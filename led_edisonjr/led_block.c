@@ -1,15 +1,10 @@
 /*
  * C file for the LED peripheral
  *
- * This peripheral actually creates a group of LEDs
- * instead of a single one.
+ * Creates a matrix of LEDs (32x16)
  *
- * The bus has 32 bit size. We can decide how many
- * we are going to assign to the bus, when creating
- * an instance of this peripheral.
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -34,7 +29,6 @@ struct led_block
 
 led_block *led_block_new(m_uword address)
 {
-
 	led_block *led = (led_block *)malloc(sizeof(led_block));
 	
 	if(led)
@@ -63,10 +57,8 @@ led_block *led_block_new(m_uword address)
 
 void led_block_bus_connector_set(led_block *led, m_bus *bus)
 {
-
 	if(led && bus)
-	{
-		
+	{		
 		if(!led -> connected)
 		{
 			free(led -> bus);
@@ -101,12 +93,21 @@ void led_block_free(led_block *led)
 /*
  * Updates the current state of the LED block
  *
- * This is where is must update the graphics
+ * This function has 5 memory addresses for the assembly programmer
  *
- * If display is set (peripheral was created), then
- * set the data that's being passed through the bus
- * to generate the correct graphics.
+ * 		CURSORX  : 0x4000
+ * 		CURSORY  : 0X4001
+ * 		LEDCOLOR : 0X4002
+ *		CIRCLE	 : 0X4003
+ *		SQUARE	 : 0X4004
  *
+ *	Variables
+ *
+ *		state   : State of the led being pointed by the cursor
+ *		xCenter : center for circle and square
+ *		yCenter : center for circle and square
+ *		xTemp	: temporary X for drawing circle and square
+ *		yTemp	: temporary Y for drawing circle and square
  */
 
 void led_block_clock(led_block *led, edison_led_matrix *matrix)
@@ -238,11 +239,8 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 				xCenter = edison_led_matrix_get_cursor_x(matrix);
 				yCenter = edison_led_matrix_get_cursor_y(matrix);
 
-				xTemp = xCenter;
-				yTemp = yCenter;
-
-				yTemp += 2;
-				xTemp -= 1;
+				xTemp = xCenter - 1;
+				yTemp = yCenter - 2;
 
 				for(int i = 0; i < 16; i++)
 				{
@@ -256,7 +254,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 					}
 					else if(i < 9)
 					{
-						yTemp -= 1;
+						yTemp += 1;
 					}
 					else if(i < 13)
 					{
@@ -264,12 +262,12 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 					}
 					else
 					{
-						yTemp += 1;
+						yTemp -= 1;
 					}
 				}
 
-			edison_led_matrix_set_cursor_x(matrix, xCenter);
-			edison_led_matrix_set_cursor_y(matrix, yCenter);
+				edison_led_matrix_set_cursor_x(matrix, xCenter);
+				edison_led_matrix_set_cursor_y(matrix, yCenter);
 			}
 		}
 		else if(led -> bus -> ack && ((led -> bus -> address == led -> address + 4)))

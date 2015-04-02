@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
     dip_switch_bus_connector_set(switches, miniat_conector_bus_get(iMiniAT));
 
     // This is the main loop. This is what keeps everything clocking (updating)
+    // Also reads SDL events
 
     while(edison_poll_events(board))
     {
@@ -90,3 +91,6 @@ int main(int argc, char *argv[])
     miniat_free(iMiniAT);
     return 0;
 }
+
+
+

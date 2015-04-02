@@ -21,5 +21,4 @@ typedef struct edison_texture
 #define EDISON_BUTTON_MAX		32
 #define EDISON_SWITCH_MAX		32
 #define EDISON_SEVEN_SEG_MAX	64
-#define EDISON_DIPSWITCH_MAX	8
 #endif

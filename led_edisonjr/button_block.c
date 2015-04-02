@@ -94,7 +94,7 @@ void button_block_free(button_block *buttons)
 }
 
 /*
- * Updates the current state of the Button block
+ * Reads the states of the buttons to update the bus and the SDL
  *
  *
  *

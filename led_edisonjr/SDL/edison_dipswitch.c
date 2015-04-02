@@ -15,14 +15,14 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 	//gives the dipswitch a default id of 0
 	dipswitch->id = 0;
 	//creates the dipswitch rectangles
-	dipswitch->rect[0].x = pos_x;
-	dipswitch->rect[0].y = pos_y;
-	dipswitch->rect[0].w = width;
-	dipswitch->rect[0].h = height/2;
-	dipswitch->rect[1].x = pos_x;
-	dipswitch->rect[1].y = pos_y + height/2;
-	dipswitch->rect[1].w = width;
-	dipswitch->rect[1].h = height/2;
+	dipswitch->rects[0].x = pos_x;
+	dipswitch->rects[0].y = pos_y;
+	dipswitch->rects[0].w = width;
+	dipswitch->rects[0].h = height/2;
+	dipswitch->rects[1].x = pos_x;
+	dipswitch->rects[1].y = pos_y + height/2;
+	dipswitch->rects[1].w = width;
+	dipswitch->rects[1].h = height/2;
 
 	//sets defualt dipswitch state to 0
 	for(int i = 0; sizeof(dipswitch -> status) / sizeof(int); i++)
@@ -35,7 +35,8 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int* state)
 {
 	//sets dipswitch state to sent state.
-	dipswitch -> status = state;
+	for(int i = 0; i < sizeof(state) / sizeof(state[0]); i++)
+		dipswitch -> status[i] = state[i];
 }
 
 int* edison_dipswitch_get_state(edison_dipswitch* dipswitch)

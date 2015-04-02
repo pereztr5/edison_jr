@@ -33,10 +33,15 @@ extern led_block *led_block_new(m_uword address);
 extern void led_block_free(led_block *led);
 
 /*
- * Clock function
+ * Updates the current state of the LED block
  *
- * This will update the current value for the LED pin
+ * This function has 5 memory addresses for the assembly programmer
  *
+ * 		CURSORX  : 0x4000
+ * 		CURSORY  : 0X4001
+ * 		LEDCOLOR : 0X4002
+ *		CIRCLE	 : 0X4003
+ *		SQUARE	 : 0X4004
  *
  */
 

@@ -32,53 +32,60 @@
 	MOVI R8, 4
 	MOVI R9, 8
 	MOVI R11, 16
+	MOVI R12, 32
 
 !loop
 	LOAD R5, [READBTN]
-	
+	MOVI R2, 1
+	STOR R2, [LEDCOLOR]
+	MOVI R2, 0
+	STOR R2, [LEDCOLOR]
+	BRAE R5, R0, [!loop]
+	BRA [!button]
+
+!button
 	BRAE R5, R6, [!case1]
     BRAE R5, R7, [!case2]
     BRAE R5, R8, [!case3]
     BRAE R5, R9, [!case4]
     BRAE R5, R11, [!case5]
+    BRAE R5, R12, [!case6]
     BRA [!loop]
 
 !case1
-	MOVI R2, 1
-#	STOR R2, [LEDCOLOR]
 	ADD R1, R1, (1)
 	STOR R1, [CURSORY]
-
 	BRA [!loop]
 
 !case2
-	MOVI R2, 0
-	STOR R2, [LEDCOLOR]
 	SUB R1, R1, (1)
 	STOR R1, [CURSORY]
 
 	BRA [!loop]
 
 !case3
-
-	MOVI R2, 1
-#	STOR R2, [LEDCOLOR]
 	ADD R10, R10, (1)
 	STOR R10, [CURSORX]
 
 	BRA [!loop]
 
 !case4
-
-	MOVI R2, 0
-	STOR R2, [LEDCOLOR]
 	SUB R10, R10, (1)
 	STOR R10, [CURSORX]
 	
 	BRA [!loop]
 
 !case5
-	STOR R2, [SQUARE]
-	BRA [!loop]
+	MOVI R2, 1
+	STOR R2, [CIRCLE]
+	LOAD R5, [READBTN]
+	BRAE R5, R0, [!loop]
+	BRA [!case5]
 
+!case6
+	MOVI R2, 1
+	STOR R2, [SQUARE]
+	LOAD R5, [READBTN]
+	BRAE R5, R0, [!loop]
+	BRA [!case6]
 

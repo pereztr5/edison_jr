@@ -1,5 +1,5 @@
 #ifndef _EDISON_DIPSWITCH_H_
-#include "/usr/include/SDL2/SDL.h"
+#include "/usr/local/include/SDL2/SDL.h"
 #endif
 
 #ifndef _DEF_UINT_
