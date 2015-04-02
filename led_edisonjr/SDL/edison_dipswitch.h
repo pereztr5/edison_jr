@@ -1,5 +1,5 @@
 #ifndef _EDISON_DIPSWITCH_H_
-#include "/usr/local/include/SDL2/SDL.h"
+#include "/usr/include/SDL2/SDL.h"
 #endif
 
 #ifndef _DEF_UINT_
@@ -28,4 +28,13 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
  * \param state The state of the dipswitch
  * \returns void
  */
-void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int state);
+void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int* state);
+
+/*
+ * Gets the states of all the switches in the DIP Switch 
+ * 
+ * Returns an array
+ * 
+ */
+
+int* edison_dipswitch_get_state(edison_dipswitch* dipswitch);

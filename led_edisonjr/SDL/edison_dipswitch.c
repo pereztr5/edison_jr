@@ -3,8 +3,8 @@
 struct edison_dipswitch
 {
 	uint id;
-	struct SDL_Rect rect;
-	int status;
+	struct SDL_Rect rects[2];
+	int status[4];
 };
 
 edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int height)
@@ -14,20 +14,31 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 
 	//gives the dipswitch a default id of 0
 	dipswitch->id = 0;
-	//creates the dipswitch rectangle
-	dipswitch->rect.x = pos_x;
-	dipswitch->rect.y = pos_y;
-	dipswitch->rect.w = width;
-	dipswitch->rect.h = height;
+	//creates the dipswitch rectangles
+	dipswitch->rect[0].x = pos_x;
+	dipswitch->rect[0].y = pos_y;
+	dipswitch->rect[0].w = width;
+	dipswitch->rect[0].h = height/2;
+	dipswitch->rect[1].x = pos_x;
+	dipswitch->rect[1].y = pos_y + height/2;
+	dipswitch->rect[1].w = width;
+	dipswitch->rect[1].h = height/2;
+
 	//sets defualt dipswitch state to 0
-	dipswitch->status = 0;
+	for(int i = 0; sizeof(dipswitch -> status) / sizeof(int); i++)
+		dipswitch -> status[i] = 0;
 
 	//returns pointer to dipswitch
 	return dipswitch;
 }
 
-void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int state)
+void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int* state)
 {
 	//sets dipswitch state to sent state.
-	dipswitch->status = state;
+	dipswitch -> status = state;
+}
+
+int* edison_dipswitch_get_state(edison_dipswitch* dipswitch)
+{
+	return dipswitch -> status;
 }

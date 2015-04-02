@@ -110,10 +110,6 @@ void sevseg_display_clock(sevseg_display *display)
 			//display -> bus -> data = data;
 		}
 	}
-	else
-	{
-		return;
-	}
 	return;
 }
 

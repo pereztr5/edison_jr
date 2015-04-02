@@ -15,6 +15,7 @@
 #include "led_block.h"
 #include "button_block.h"
 #include "sevseg_display.h"
+#include "dip_switch.h"
 
 #include "SDL/edison_led_matrix.h"
 #include "SDL/edison_led.h"
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
     led_block *ledBlock = led_block_new(LED_ADDRESS);
     button_block *btnBlock = button_block_new(BUTTONS_ADDRESS);
     sevseg_display *sevsegDisplay = sevseg_display_new(SEVSEG_ADDRESS);
+    dip_switch *switches = dip_switch_new(DIPSWITCH_ADDRESS);
 
     /* 
      * Adding peripherals to the board and connecting them to the bus
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
     led_block_bus_connector_set(ledBlock, miniat_conector_bus_get(iMiniAT));
     button_block_bus_connector_set(btnBlock, miniat_conector_bus_get(iMiniAT));
     sevseg_display_bus_connector_set(sevsegDisplay, miniat_conector_bus_get(iMiniAT));
-
+    dip_switch_bus_connector_set(switches, miniat_conector_bus_get(iMiniAT));
 
     // This is the main loop. This is what keeps everything clocking (updating)
 
@@ -74,6 +76,7 @@ int main(int argc, char *argv[])
         led_block_clock(ledBlock, matrix);
         button_block_clock(btnBlock, buttons);
         sevseg_display_clock(sevsegDisplay);
+        dip_switch_clock(switches);
         edison_render(board);
     }
       
@@ -83,6 +86,7 @@ int main(int argc, char *argv[])
     sevseg_display_free(sevsegDisplay);
     led_block_free(ledBlock);
     button_block_free(btnBlock);
+    dip_switch_free(switches);
     miniat_free(iMiniAT);
     return 0;
 }
