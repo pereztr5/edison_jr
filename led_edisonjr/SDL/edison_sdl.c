@@ -199,11 +199,52 @@ void edison_render_sevensegs(edison_board* board)
 	for(; i < board->sevenseg_count; i++)
 	{
 		edison_sevenseg* sevenseg = board->sevenseg_list[i];
-		for(j=0; j < 8; j++){
+		for(j=0; j < 8; j++)
+		{
 			SDL_SetRenderDrawColor(board->renderer, 224 * sevenseg->status[j] + 31, 0, 0, 255);
 			SDL_RenderFillRect(board->renderer, &sevenseg->segs[j]);
 		}
 	}
+}
+
+void edison_add_dipswitch(edison_board* board, edison_dipswitch* dipswitch)
+{
+	if(board->dipswitch_count < EDISON_DIPSWITCH_MAX)
+		board->dipswitch_list[board->dipswitch_count++] = dipswitch;
+}
+
+edison_dipswitch* edison_get_dipswitch(edison_board* board, uint id)
+{
+	if(id < board->dipswitch_count)
+	{
+		return board->dipswitch_list[id];
+	}
+
+	return NULL;
+}
+
+void edison_render_dipswitches(edison_board* board)
+{
+		uint i = 0;
+		uint j = 0;
+		uint color = 0;
+		for(; i < board->dipswitch_count; i++)
+		{
+			edison_dipswitch* dipswitch = board->dipswitch_list[i];
+			for(j=0; j < 8; j++)
+			{
+				if(j%2)
+				{
+					color = 67 + ((1 - dipswitch->status[j/2]) * 86);
+				}
+				else
+				{
+					color = 67 + (dipswitch->status[j/2] * 86);
+				}
+				SDL_SetRenderDrawColor(board->renderer, color, color, color, 255);
+				SDL_RenderFillRect(board->renderer, &dipswitch->rects[j]);
+			}
+		}
 }
 
 /**
