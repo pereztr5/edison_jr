@@ -8,7 +8,7 @@
 #define _DIP_SWITCH_H_
 
 #include "miniat/miniat.h"
-//#include "SDL/edison_button.h"
+#include "SDL/edison_dipswitch.h"
 
 typedef struct dip_switch dip_switch;
 
@@ -40,7 +40,7 @@ extern void dip_switch_free(dip_switch *switches);
  *
  */
 
-extern void dip_switch_clock(dip_switch *switches);
+extern void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches);
 
 /*
  * Tries to connect the DIP Switch with the bus

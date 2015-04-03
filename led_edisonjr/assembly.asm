@@ -25,8 +25,10 @@
 	MOVI R10, 0
 	MOVI R1, 0
 	MOVI R2, 1
+
 	MOVI R3, 32
 	MOVI R4, 16
+
 	MOVI R6, 1
 	MOVI R7, 2
 	MOVI R8, 4
@@ -36,10 +38,12 @@
 
 !loop
 	LOAD R5, [READBTN]
+
 	MOVI R2, 1
 	STOR R2, [LEDCOLOR]
 	MOVI R2, 0
 	STOR R2, [LEDCOLOR]
+	
 	BRAE R5, R0, [!loop]
 	BRA [!button]
 

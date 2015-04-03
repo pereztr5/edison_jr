@@ -12,6 +12,7 @@
 
 #include <miniat/miniat.h>
 #include "dip_switch.h"
+#include "button_block.h"
 
 struct dip_switch
 {
@@ -100,8 +101,11 @@ void dip_switch_free(dip_switch *switches)
  *
  */
 
-void dip_switch_clock(dip_switch *switches)
+void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 {
+	bool switch_states[4];
+	int *temp_states;
+	temp_states = malloc(sizeof(int) * 4);
 
 	if(switches)
 	{
@@ -109,7 +113,21 @@ void dip_switch_clock(dip_switch *switches)
 		{
 			switches -> bus -> ack = M_HIGH;
 
-			// SDL FUNCTIONS
+			temp_states = edison_dipswitch_get_state(edison_switches);			
+
+			for(int i = 0; i < 4; i++)
+			{
+				if(temp_states[i] == 1)
+				{
+					switch_states[i] = true;
+				}
+				else
+				{
+					switch_states[i] = false;
+				}
+			}
+
+			switches -> bus -> data = boolToDec(switch_states);
 		}
 		else if(switches -> bus -> ack && ((switches -> bus -> address == switches -> address)))
 		{

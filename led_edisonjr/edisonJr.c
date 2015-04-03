@@ -33,7 +33,7 @@
 // Main
 
 int main(int argc, char *argv[])
-{   
+{
     /* 
      * Creating the peripherals
      *
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     miniat *iMiniAT = miniat_file_new(argv[1]);
     edison_board *board = edison_create_board(1200, 800);
     edison_led_matrix *matrix = edison_create_led_matrix(50, 550, 32, 16, 5, 0, 0, 255);
-    edison_dipswitch *edison_switches = edison_create_dipswitch(550, 450, 40, 20);
+    edison_dipswitch *edison_switches = edison_create_dipswitch(550, 450, 80, 45);
     edison_button *buttons[8];
 
     led_block *ledBlock = led_block_new(LED_ADDRESS);
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
         led_block_clock(ledBlock, matrix);
         button_block_clock(btnBlock, buttons);
         sevseg_display_clock(sevsegDisplay);
-        dip_switch_clock(switches);
+        dip_switch_clock(switches, edison_switches);
         edison_render(board);
     }
       
