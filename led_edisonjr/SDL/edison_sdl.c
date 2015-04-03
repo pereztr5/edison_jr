@@ -266,7 +266,11 @@ void edison_render(edison_board* board)
 bool edison_poll_events(edison_board* board)
 {
 	SDL_Event e;
+	int dipswstatarr[4] = {0,0,0,0};
 	int i = 0;
+	int j = 0;
+	int x = 0;
+	int y = 0;
 	while(SDL_PollEvent(&e) != 0)
 	{
 		switch(e.type)
@@ -277,11 +281,11 @@ bool edison_poll_events(edison_board* board)
 			case SDL_MOUSEBUTTONDOWN:
 
 			i = 0;
+			j = 0;
+			SDL_GetMouseState(&x, &y);
 			for(; i < board->button_count; i++)
 			{
 				// Check for button hit
-				int x, y;
-				SDL_GetMouseState(&x, &y);
 				SDL_Rect hitbox = board->button_list[i]->hitbox;
 
 				if(x > hitbox.x && x < (hitbox.x + hitbox.w) &&
@@ -291,16 +295,29 @@ bool edison_poll_events(edison_board* board)
 					edison_button_set_state(board->button_list[i], 1);
 				}
 			}
+			for(i = 0; i < board->dipswitch_count; i++)
+			{
+				dipswstatarr = edison_dipswitch_get_state(board->dipswitch_list[i]);
+				// Check for dipswitch hit
+				for(j = 0; j < 8; j=j+2){
+					SDL_Rect hitbox = board->dipswitch_list[i]->rects[j];
+					if(x > hitbox.x && x < (hitbox.x + hitbox.w) &&
+						y > hitbox.y && y < (hitbox.y + (hitbox.h * 2)))
+					{
+						dipswstatarr[j/2] = 1 - dipswstatarr[j/2];
+					}
+				}
+				edison_dipswitch_set_state(board->dipswitch_list[i], dipswstatarr);
+			}
 			break;
 
 			case SDL_MOUSEBUTTONUP:
 
 			i = 0;
+			SDL_GetMouseState(&x, &y);
 			for(; i < board->button_count; i++)
 			{
 				// Check for button hit
-				int x, y;
-				SDL_GetMouseState(&x, &y);
 				SDL_Rect hitbox = board->button_list[i]->hitbox;
 
 				if(x > hitbox.x && x < (hitbox.x + hitbox.w) &&
