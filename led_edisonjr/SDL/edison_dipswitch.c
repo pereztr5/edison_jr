@@ -12,11 +12,11 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 	//creates the dipswitch rectangles
 	//please see design document for more info
 	for(int i = 0; i<8;i=i+2){
-		dipswitch->rects[i].x = pos_x+(width*(i/7));
+		dipswitch->rects[i].x = pos_x+(i*(width/7));
 		dipswitch->rects[i].y = pos_y;
 		dipswitch->rects[i].w = width/7;
 		dipswitch->rects[i].h = height/2;
-		dipswitch->rects[i+1].x = pos_x+(width*(i/7));
+		dipswitch->rects[i+1].x = pos_x+(i*(width/7));
 		dipswitch->rects[i+1].y = pos_y + height/2;
 		dipswitch->rects[i+1].w = width/7;
 		dipswitch->rects[i+1].h = height/2;
