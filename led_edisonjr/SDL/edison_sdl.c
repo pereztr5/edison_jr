@@ -258,6 +258,7 @@ void edison_render(edison_board* board)
 	SDL_RenderClear(board->renderer);
 	edison_render_leds(board);
 	edison_render_buttons(board);
+	edison_render_sevensegs(board);
 	edison_render_dipswitches(board);
 	SDL_RenderPresent(board->renderer);
 }

@@ -97,11 +97,50 @@ void edison_render_buttons(edison_board* board);
  */
 void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat);
 
+/**
+ * Adds a seven segment display to the Edison Jr. board.
+ * \param board The Edison Jr. board we are adding to.
+ * \param sevenseg The seven segment display to add to the board.
+ * \returns void
+ */
 void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg);
+
+/**
+ * Gets a given instance of a seven segment display.
+ * \param board The Edison Jr. board we are looking on
+ * \param id The unique ID of the seven segment display to look for.
+ * \returns A pointer to the desired seven segment display, or NULL if it doesn't exist.
+ */
 edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
+
+/**
+ * Renders all seven segment displays on the board
+ * \param board The Edison Jr. board to render to.
+ * \returns void
+ */
 void edison_render_sevensegs(edison_board* board);
+
+/**
+ * Adds a dipswitch to the Edison Jr. board.
+ * \param board The Edison Jr. board we are adding to.
+ * \param dipswitch The dipswitch to add to the board.
+ * \returns void
+ */
 void edison_add_dipswitch(edison_board* board, edison_dipswitch* dipswitch);
+
+/**
+ * Gets a given instance of a dipswitch.
+ * \param board The Edison Jr. board we are looking on
+ * \param id The unique ID of the dipswitch to look for.
+ * \returns A pointer to the desired dipswitch, or NULL if it doesn't exist.
+ */
 edison_dipswitch* edison_get_dipswitch(edison_board* board, uint id);
+
+/**
+ * Renders all dipswitches on the board
+ * \param board The Edison Jr. board to render to.
+ * \returns void
+ */
 void edison_render_dipswitches(edison_board* board);
 
 #define _EDISON_SDL_H_
