@@ -1,11 +1,5 @@
 #include "edison_dipswitch.h"
-
-struct edison_dipswitch
-{
-	uint id;
-	struct SDL_Rect rects[8];
-	int status[4];
-};
+#include <stdio.h>
 
 edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int height)
 {
@@ -14,6 +8,7 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 
 	//gives the dipswitch a default id of 0
 	dipswitch->id = 0;
+
 	//creates the dipswitch rectangles
 	//please see design document for more info
 	for(int i = 0; i<8;i=i+2){
@@ -26,8 +21,10 @@ edison_dipswitch* edison_create_dipswitch(int pos_x, int pos_y, int width, int h
 		dipswitch->rects[i+1].w = width/7;
 		dipswitch->rects[i+1].h = height/2;
 	}
+
+	
 	//sets defualt dipswitch state to 0
-	for(i = 0; sizeof(dipswitch -> status) / sizeof(int); i++)
+	for(int i = 0; i < (sizeof(dipswitch -> status) / sizeof(dipswitch -> status[0])); i++)
 		dipswitch -> status[i] = 0;
 
 	//returns pointer to dipswitch

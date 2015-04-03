@@ -9,6 +9,8 @@ struct edison_board
 	uint button_count;
 	edison_sevenseg* sevenseg_list[EDISON_SEVEN_SEG_MAX];
 	uint sevenseg_count;
+	edison_dipswitch* dipswitch_list[EDISON_SWITCH_MAX];
+	uint dipswitch_count;
 	SDL_Point board_size;
 	SDL_Window* window;
 	SDL_Surface* board_surface;
@@ -209,7 +211,7 @@ void edison_render_sevensegs(edison_board* board)
 
 void edison_add_dipswitch(edison_board* board, edison_dipswitch* dipswitch)
 {
-	if(board->dipswitch_count < EDISON_DIPSWITCH_MAX)
+	if(board->dipswitch_count < EDISON_SWITCH_MAX)
 		board->dipswitch_list[board->dipswitch_count++] = dipswitch;
 }
 
@@ -228,7 +230,7 @@ void edison_render_dipswitches(edison_board* board)
 		uint i = 0;
 		uint j = 0;
 		uint color = 0;
-		for(; i < board->dipswitch_count; i++)
+		for(i = 0; i < board->dipswitch_count; i++)
 		{
 			edison_dipswitch* dipswitch = board->dipswitch_list[i];
 			for(j=0; j < 8; j++)
@@ -256,6 +258,7 @@ void edison_render(edison_board* board)
 	SDL_RenderClear(board->renderer);
 	edison_render_leds(board);
 	edison_render_buttons(board);
+	edison_render_dipswitches(board);
 	SDL_RenderPresent(board->renderer);
 }
 

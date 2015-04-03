@@ -7,6 +7,7 @@
 #include "edison_button.h"
 #include "edison_led_matrix.h"
 #include "edison_seven_segment.h"
+#include "edison_dipswitch.h"
 
 /**
  * Contains state information for the Edison Jr. board.
@@ -99,6 +100,9 @@ void edison_add_led_matrix(edison_board* board, edison_led_matrix* mat);
 void edison_add_sevenseg(edison_board* board, edison_sevenseg* sevenseg);
 edison_sevenseg* edison_get_sevenseg(edison_board* board, uint id);
 void edison_render_sevensegs(edison_board* board);
+void edison_add_dipswitch(edison_board* board, edison_dipswitch* dipswitch);
+edison_dipswitch* edison_get_dipswitch(edison_board* board, uint id);
+void edison_render_dipswitches(edison_board* board);
 
 #define _EDISON_SDL_H_
 #endif

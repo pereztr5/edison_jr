@@ -1,6 +1,8 @@
 #ifndef _EDISON_DIPSWITCH_H_
+#define _EDISON_DIPSWITCH_H_
+
 #include "/usr/local/include/SDL2/SDL.h"
-#endif
+
 
 #ifndef _DEF_UINT_
 #define _DEF_UINT_
@@ -10,7 +12,13 @@ typedef unsigned int uint;
 /**
  * Contains state information for the dipswitch
  */
-typedef struct edison_dipswitch edison_dipswitch;
+
+typedef struct 
+{
+	uint id;
+	struct SDL_Rect rects[8];
+	int status[4];
+}edison_dipswitch;
 
 /**
  * Creates a new instance of a dipswitch.
@@ -38,3 +46,5 @@ void edison_dipswitch_set_state(edison_dipswitch* dipswitch, int* state);
  */
 
 int* edison_dipswitch_get_state(edison_dipswitch* dipswitch);
+
+#endif
