@@ -30,6 +30,10 @@
 #define BUTTONS_ADDRESS     0x4020
 #define DIPSWITCH_ADDRESS   0x4030
 
+// Important Numbers
+
+#define BUTTON_NUMBER 8
+
 // Main
 
 int main(int argc, char *argv[])
@@ -43,7 +47,7 @@ int main(int argc, char *argv[])
     edison_board *board = edison_create_board(1200, 800);
     edison_led_matrix *matrix = edison_create_led_matrix(50, 550, 32, 16, 5, 0, 0, 255);
     edison_dipswitch *edison_switches = edison_create_dipswitch(550, 450, 80, 45);
-    edison_button *buttons[8];
+    edison_button *buttons[BUTTON_NUMBER];
 
     led_block *ledBlock = led_block_new(LED_ADDRESS);
     button_block *btnBlock = button_block_new(BUTTONS_ADDRESS);
@@ -55,7 +59,7 @@ int main(int argc, char *argv[])
      *
      */
 
-    for(int i = 7; i >= 0; i--)
+    for(int i = BUTTON_NUMBER - 1; i >= 0; i--)
     {
         buttons[i] = edison_create_button(795 - (i * 35), 400, 20, 20);
         edison_add_button(board, buttons[i]);

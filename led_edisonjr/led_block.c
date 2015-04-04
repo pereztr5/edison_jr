@@ -5,13 +5,22 @@
  *
  */
 
+// Libs
+
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
+// Headers
+
 #include <miniat/miniat.h>
 #include "led_block.h"
 #include "SDL/edison_led_matrix.h"
+
+// Important Numbers
+
+#define MATRIX_X_SIZE	32
+#define MATRIX_Y_SIZE	16
 
 struct led_block
 {
@@ -124,7 +133,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		{
 			led -> bus -> ack = M_HIGH;
 
-			if((int)led -> bus -> data < 32 && (int)led -> bus -> data >= 0)
+			if((int)led -> bus -> data < MATRIX_X_SIZE && (int)led -> bus -> data >= 0)
 			{
 				edison_led_matrix_set_cursor_x(matrix, (int)led -> bus -> data);	
 			}
@@ -140,7 +149,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 		{
 			led -> bus -> ack = M_HIGH;
 
-			if((int)led -> bus -> data < 16 && (int)led -> bus -> data >= 0)
+			if((int)led -> bus -> data < MATRIX_Y_SIZE && (int)led -> bus -> data >= 0)
 			{
 				edison_led_matrix_set_cursor_y(matrix, (int)led -> bus -> data);
 			}
@@ -190,7 +199,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 
 				for(int i = 0; i < 8; i++)
 				{
-					if(xTemp < 32 && xTemp >= 0 && yTemp < 16 && yTemp >= 0)
+					if(xTemp < MATRIX_X_SIZE && xTemp >= 0 && yTemp < MATRIX_Y_SIZE && yTemp >= 0)
 					{
 						edison_led_matrix_set_cursor_x(matrix, xTemp);
 						edison_led_matrix_set_cursor_y(matrix, yTemp);

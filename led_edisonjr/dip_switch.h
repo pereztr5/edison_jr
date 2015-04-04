@@ -62,5 +62,15 @@ extern void dip_switch_bus_connector_set(dip_switch *switches, m_bus *bus);
 
 extern m_bus dip_switch_get_bus(dip_switch *switches);
 
+/*
+ * boolToBin
+ *
+ * This functions transforms an array of booleans
+ * in a binary integer
+ *
+ */
+
+extern int boolToDecimal(bool *states);
+
 
 #endif 

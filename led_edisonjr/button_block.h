@@ -10,6 +10,8 @@
 #include "miniat/miniat.h"
 #include "SDL/edison_button.h"
 
+#define BUTTON_NUMBER 8
+
 typedef struct button_block button_block;
 
 /*
@@ -40,7 +42,7 @@ extern void button_block_free(button_block *buttons);
  *
  */
 
-extern void button_block_clock(button_block *buttons, edison_button *sdl_buttons[8]);
+extern void button_block_clock(button_block *buttons, edison_button *sdl_buttons[BUTTON_NUMBER]);
 
 /*
  * Tries to connect the Button Block with the bus

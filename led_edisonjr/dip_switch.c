@@ -14,6 +14,8 @@
 #include "dip_switch.h"
 #include "button_block.h"
 
+#define SWITCHES_NUMBER 4
+
 struct dip_switch
 {
 	int connected;
@@ -103,9 +105,11 @@ void dip_switch_free(dip_switch *switches)
 
 void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 {
-	bool switch_states[4];
+	bool switch_states[SWITCHES_NUMBER];
 	int *temp_states;
-	temp_states = malloc(sizeof(int) * 4);
+	int j = SWITCHES_NUMBER - 1;
+
+	temp_states = malloc(sizeof(int) * SWITCHES_NUMBER);
 
 	if(switches)
 	{
@@ -113,11 +117,11 @@ void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 		{
 			switches -> bus -> ack = M_HIGH;
 
-			temp_states = edison_dipswitch_get_state(edison_switches);			
+			temp_states = edison_dipswitch_get_state(edison_switches);
 
-			for(int i = 0; i < 4; i++)
+			for(int i = 0; i < SWITCHES_NUMBER; i++)
 			{
-				if(temp_states[i] == 1)
+				if(temp_states[j] == 1)
 				{
 					switch_states[i] = true;
 				}
@@ -125,9 +129,10 @@ void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 				{
 					switch_states[i] = false;
 				}
+				j--;
 			}
-
-			switches -> bus -> data = boolToDec(switch_states);
+			
+			switches -> bus -> data = boolToDecimal(switch_states);
 		}
 		else if(switches -> bus -> ack && ((switches -> bus -> address == switches -> address)))
 		{
@@ -154,4 +159,25 @@ m_bus dip_switch_get_bus(dip_switch *switches)
 	return *(switches -> bus);
 }
 
+/*
+ * boolToBin
+ *
+ * This functions transforms an array of booleans
+ * in a binary integer
+ *
+ */
+
+int boolToDecimal(bool *states)
+{
+	int number;
+
+	for(int i = 0; i < SWITCHES_NUMBER; i++)
+	{
+		if(states[i])
+		{
+			number += pow(2, i);
+		}
+	}
+	return number;
+}
 
