@@ -40,6 +40,9 @@
 
 int main(int argc, char *argv[])
 {
+    int delay_ratio = 1;
+    int cycles = 0;
+
     /* 
      * Creating the peripherals
      *
@@ -82,15 +85,26 @@ int main(int argc, char *argv[])
 
     while(edison_poll_events(board))
     {
-        // Clocks
+        if(cycles > 100000 * delay_ratio)
+        {
+            cycles = 0;
+        }
 
-        miniat_clock(iMiniAT);
-        led_block_clock(ledBlock, matrix);
-        button_block_clock(btnBlock, buttons);
-        sevseg_display_clock(sevsegDisplay);
-        dip_switch_clock(switches, edison_switches);
-        lcd_display_clock(lcd);
+        if(cycles % delay_ratio == 0)
+        {
+            // Clocks
+
+            miniat_clock(iMiniAT);
+            led_block_clock(ledBlock, matrix);
+            button_block_clock(btnBlock, buttons);
+            sevseg_display_clock(sevsegDisplay);
+            dip_switch_clock(switches, edison_switches);
+            lcd_display_clock(lcd);    
+        }
+        
+        //delay_ratio = edison_potentiometer_get_value(edison_potentiometer);
         edison_render(board);
+        cycles++;
     }
       
     // Memory cleaning
