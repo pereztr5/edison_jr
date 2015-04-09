@@ -113,6 +113,8 @@ void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 
 	if(switches)
 	{
+		// 0x4030 - READDIP
+
 		if((switches -> bus -> req) && (switches -> bus -> address == switches -> address) && (!switches -> bus -> ack))
 		{
 			switches -> bus -> ack = M_HIGH;

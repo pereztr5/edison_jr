@@ -103,7 +103,7 @@ void lcd_display_clock(lcd_display *lcd)
 {
 	if(lcd)
 	{
-		// CURSOR X
+		// 0x4040 - CURSOR X
 
 		if((lcd -> bus -> req) && (lcd -> bus -> address == lcd -> address) && (!lcd -> bus -> ack))
 		{
@@ -120,7 +120,7 @@ void lcd_display_clock(lcd_display *lcd)
 			lcd -> bus -> ack = M_LOW;	
 		}
 
-		// CURSOR Y
+		// 0x4041 - CURSOR Y
 
 		else if((lcd -> bus -> req) && (lcd -> bus -> address == lcd -> address + 1) && (!lcd -> bus -> ack))
 		{
@@ -137,7 +137,7 @@ void lcd_display_clock(lcd_display *lcd)
 			lcd -> bus -> ack = M_LOW;	
 		}
 
-		// WRITING
+		// 0x4042 - WRITING
 
 		else if((lcd -> bus -> req) && (lcd -> bus -> address == lcd -> address + 2) && (!lcd -> bus -> ack))
 		{

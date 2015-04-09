@@ -127,7 +127,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 
 	if(led)
 	{
-		// CURSOR X
+		// 0x4000 - CURSOR X
 
 		if((led -> bus -> req) && (led -> bus -> address == led -> address) && (!led -> bus -> ack))
 		{
@@ -143,7 +143,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 			led -> bus -> ack = M_LOW;	
 		}
 
-		// CURSOR Y
+		// 0x4001 - CURSOR Y
 
 		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 1) && (!led -> bus -> ack))
 		{
@@ -159,7 +159,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 			led -> bus -> ack = M_LOW;	
 		}
 
-		// LED COLOR
+		// 0x4002 - LED COLOR
 
 		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 2) && (!led -> bus -> ack))
 		{
@@ -181,7 +181,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 			led -> bus -> ack = M_LOW;	
 		}
 
-		// CIRCLE
+		// 0x4003 - CIRCLE
 
 		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 3) && (!led -> bus -> ack))
 		{
@@ -237,7 +237,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 			led -> bus -> ack = M_LOW;	
 		}
 
-		// SQUARE
+		// 0x4004 - SQUARE
 
 		else if((led -> bus -> req) && (led -> bus -> address == led -> address + 4) && (!led -> bus -> ack))
 		{
@@ -248,7 +248,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 				xCenter = edison_led_matrix_get_cursor_x(matrix);
 				yCenter = edison_led_matrix_get_cursor_y(matrix);
 
-				xTemp = xCenter - 1;
+				xTemp = xCenter - 2;
 				yTemp = yCenter - 2;
 
 				for(int i = 0; i < 16; i++)
@@ -257,15 +257,15 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 					edison_led_matrix_set_cursor_y(matrix, yTemp);
 					edison_led_matrix_set_state(matrix, 1);
 					
-					if(i < 5)
+					if(i < 4)
 					{
 						xTemp += 1;
 					}
-					else if(i < 9)
+					else if(i < 8)
 					{
 						yTemp += 1;
 					}
-					else if(i < 13)
+					else if(i < 12)
 					{
 						xTemp -= 1;
 					}

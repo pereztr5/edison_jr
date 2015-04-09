@@ -106,6 +106,8 @@ void button_block_clock(button_block *buttons, edison_button *sdl_buttons[BUTTON
 
 	if(buttons)
 	{
+		// 0x4020 - READBTN
+
 		if((buttons -> bus -> req) && (buttons -> bus -> address == buttons -> address) && (!buttons -> bus -> ack))
 		{
 			buttons -> bus -> ack = M_HIGH;

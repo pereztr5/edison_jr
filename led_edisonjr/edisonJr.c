@@ -40,6 +40,13 @@
 
 int main(int argc, char *argv[])
 {
+    /* 
+     * Variable dictionary
+     *
+     *      delay_ratio : the delay ratio caused by the potentiometer to slow down simulation
+     *      cycles      : number of cycles executed. Used to produce the delay
+     */
+
     int delay_ratio = 1;
     int cycles = 0;
 
@@ -85,10 +92,20 @@ int main(int argc, char *argv[])
 
     while(edison_poll_events(board))
     {
+        // This is just to prevent that cycles gets bigger than int capacity
+
         if(cycles > 100000 * delay_ratio)
         {
             cycles = 0;
         }
+
+        /* 
+         * This if statement is what generates the potentiometer effect
+         *
+         * If potentiometer is not in standard position, everything will only clock
+         * a ratio of the times it would normally.
+         *
+         */
 
         if(cycles % delay_ratio == 0)
         {
