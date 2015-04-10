@@ -8,6 +8,7 @@
 #include "edison_led_matrix.h"
 #include "edison_seven_segment.h"
 #include "edison_dipswitch.h"
+#include "edison_lcd_display.h"
 
 /**
  * Contains state information for the Edison Jr. board.
@@ -142,6 +143,22 @@ edison_dipswitch* edison_get_dipswitch(edison_board* board, uint id);
  * \returns void
  */
 void edison_render_dipswitches(edison_board* board);
+
+/**
+ * Renders the LCD display on the board
+ * \param board The Edison Jr. board to render to.
+ * \returns void
+ */
+void edison_render_lcd_display(edison_board* board);
+
+
+/**
+ * Adds the LCD display to the board
+ * \param board The Edison Jr. board to add to.
+ * \param lcd The display to be added
+ * \returns void
+ */
+void edison_add_lcd_display(edison_board *board, edison_lcd_display *lcd);
 
 #define _EDISON_SDL_H_
 #endif

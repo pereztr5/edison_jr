@@ -10,96 +10,138 @@
 .constant SSD 		0x4010
 .constant READBTN	0x4020
 .constant READDIP	0x4030
+.constant LCDX		0x4040
+.constant LCDY		0x4041
+.constant LCDCHAR	0x4042
 
 .address 			0x2000
 
-# R0 : CANNOT BE CHANGED - ALWAYS 0
-
-# R10 : X
-# R1 : Y
-# R2 : Color
-# R3 : MAX X
-# R4 : MAX Y
-
 !main
-	MOVI R10, 0
-	MOVI R1, 0
-	MOVI R2, 1
-
-	MOVI R3, 32
-	MOVI R4, 16
-
-	MOVI R6, 1
-	MOVI R7, 2
-	MOVI R8, 4
-	MOVI R9, 8
-	MOVI R11, 16
-	MOVI R12, 32
-
-!loop
-	LOAD R5, [READBTN]
-	LOAD R15, [READDIP]
-	BRAE R15, R0, [!noblink]
-
-	MOVI R2, 1
-	STOR R2, [LEDCOLOR]
 	MOVI R2, 0
-	STOR R2, [LEDCOLOR]
-	
-	BRAE R5, R0, [!loop]
-	BRA [!button]
+	STOR R2, [LCDY]
 
-!noblink
-	LOAD R5, [READBTN]
-	LOAD R15, [READDIP]
+	MOVI R1, 0
+	MOVI R3, 'h'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
 
-	BRAE R15, R6, [!loop]
-	BRAE R5, R0, [!noblink]
-	BRA [!button]
-
-!button
-	BRAE R5, R6, [!case1]
-    BRAE R5, R7, [!case2]
-    BRAE R5, R8, [!case3]
-    BRAE R5, R9, [!case4]
-    BRAE R5, R11, [!case5]
-    BRAE R5, R12, [!case6]
-    BRA [!loop]
-
-!case1
 	ADD R1, R1, (1)
-	STOR R1, [CURSORY]
+	MOVI R3, 'e'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'l'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'l'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'o'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (2)
+	MOVI R3, 'w'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'o'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'r'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'l'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'd'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	MOVI R1, 0
+	ADD R2, R2, (1)
+	MOVI R3, 't'
+	STOR R1, [LCDX]
+	STOR R2, [LCDY]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'h'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'i'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 's'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (2)
+	MOVI R3, 'i'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 's'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (2)
+	MOVI R3, 'e'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'd'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'i'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 's'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'o'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'n'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (2)
+	MOVI R3, 'j'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+
+	ADD R1, R1, (1)
+	MOVI R3, 'r'
+	STOR R1, [LCDX]
+	STOR R3, [LCDCHAR]
+!loop
 	BRA [!loop]
 
-!case2
-	SUB R1, R1, (1)
-	STOR R1, [CURSORY]
-
-	BRA [!loop]
-
-!case3
-	ADD R10, R10, (1)
-	STOR R10, [CURSORX]
-
-	BRA [!loop]
-
-!case4
-	SUB R10, R10, (1)
-	STOR R10, [CURSORX]
-	
-	BRA [!loop]
-
-!case5
-	MOVI R2, 1
-	STOR R2, [CIRCLE]
-	LOAD R5, [READBTN]
-	BRAE R5, R0, [!loop]
-	BRA [!case5]
-
-!case6
-	MOVI R2, 1
-	STOR R2, [SQUARE]
-	LOAD R5, [READBTN]
-	BRAE R5, R0, [!loop]
-	BRA [!case6]
 

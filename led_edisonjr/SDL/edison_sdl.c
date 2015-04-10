@@ -1,6 +1,8 @@
 #include "edison_sdl.h"
 #include <stdio.h>
 
+#define LCD_IMAGE_PATH "images/display.bmp"
+
 struct edison_board
 {
 	edison_led* led_list[EDISON_LED_MAX];
@@ -11,6 +13,7 @@ struct edison_board
 	uint sevenseg_count;
 	edison_dipswitch* dipswitch_list[EDISON_SWITCH_MAX];
 	uint dipswitch_count;
+	edison_lcd_display *edison_lcd;
 	SDL_Point board_size;
 	SDL_Window* window;
 	SDL_Surface* board_surface;
@@ -46,8 +49,8 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 		}
 		else
 		{
-			// Init renderer
 			board->renderer = SDL_CreateRenderer(board->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			
 			if(board->renderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
@@ -56,7 +59,7 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 			}
 			else
 			{
-				// load background image
+
             }
             SDL_Point size = {size_x, size_y};
 			board->board_size = size;
@@ -138,6 +141,7 @@ void edison_add_button(edison_board* board, edison_button* button)
 	{
 		board -> button_list[board->button_count++] = button;
 	}
+
 	return;
 }
 
@@ -249,28 +253,214 @@ void edison_render_dipswitches(edison_board* board)
 		}
 }
 
+void edison_add_lcd_display(edison_board *board, edison_lcd_display *lcd)
+{
+	board -> edison_lcd = lcd;
+	return;
+}
+
+void edison_render_lcd_display(edison_board* board)
+{
+	SDL_Rect borders;
+	SDL_Texture *temp_texture;
+	SDL_Surface *temp_surface;
+	char temp_char;
+	bool nochar;
+
+	borders.x = 20;
+	borders.y = 45;
+	borders.w = 500;
+	borders.h = 200;
+
+	temp_surface = SDL_LoadBMP(LCD_IMAGE_PATH);
+
+	if(temp_surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+	}
+	else
+	{
+		temp_texture = SDL_CreateTextureFromSurface(board -> renderer, temp_surface);
+		SDL_RenderCopy(board -> renderer, temp_texture, NULL, &borders);
+	}
+
+	borders.x = 34;
+	borders.y = 62;
+	borders.w = 16;
+	borders.h = 26;
+
+	for(int i = 0; i < MAX_LINES; i++)
+	{
+		for(int j = 0; j < MAX_CHARS; j++)
+		{
+			nochar = false;
+			temp_char = board -> edison_lcd -> display_content[MAX_CHARS * i + j];
+
+			switch(temp_char)
+			{
+				case 'a':
+					temp_surface = SDL_LoadBMP("images/a.bmp");
+					break;
+				case 'b':
+					temp_surface = SDL_LoadBMP("images/b.bmp");
+					break;
+				case 'c':
+					temp_surface = SDL_LoadBMP("images/c.bmp");
+					break;
+				case 'd':
+					temp_surface = SDL_LoadBMP("images/d.bmp");
+					break;
+				case 'e':
+					temp_surface = SDL_LoadBMP("images/e.bmp");
+					break;
+				case 'f':
+					temp_surface = SDL_LoadBMP("images/f.bmp");
+					break;
+				case 'g':
+					temp_surface = SDL_LoadBMP("images/g.bmp");
+					break;
+				case 'h':
+					temp_surface = SDL_LoadBMP("images/h.bmp");
+					break;
+				case 'i':
+					temp_surface = SDL_LoadBMP("images/i.bmp");
+					break;
+				case 'j':
+					temp_surface = SDL_LoadBMP("images/j.bmp");
+					break;
+				case 'k':
+					temp_surface = SDL_LoadBMP("images/k.bmp");
+					break;
+				case 'l':
+					temp_surface = SDL_LoadBMP("images/l.bmp");
+					break;
+				case 'm':
+					temp_surface = SDL_LoadBMP("images/m.bmp");
+					break;
+				case 'n':
+					temp_surface = SDL_LoadBMP("images/n.bmp");
+					break;
+				case 'o':
+					temp_surface = SDL_LoadBMP("images/o.bmp");
+					break;
+				case 'p':
+					temp_surface = SDL_LoadBMP("images/p.bmp");
+					break;
+				case 'q':
+					temp_surface = SDL_LoadBMP("images/q.bmp");
+					break;
+				case 'r':
+					temp_surface = SDL_LoadBMP("images/r.bmp");
+					break;
+				case 's':
+					temp_surface = SDL_LoadBMP("images/s.bmp");
+					break;
+				case 't':
+					temp_surface = SDL_LoadBMP("images/t.bmp");
+					break;
+				case 'u':
+					temp_surface = SDL_LoadBMP("images/u.bmp");
+					break;
+				case 'v':
+					temp_surface = SDL_LoadBMP("images/v.bmp");
+					break;
+				case 'w':
+					temp_surface = SDL_LoadBMP("images/w.bmp");
+					break;
+				case 'x':
+					temp_surface = SDL_LoadBMP("images/x.bmp");
+					break;
+				case 'y':
+					temp_surface = SDL_LoadBMP("images/y.bmp");
+					break;
+				case 'z':
+					temp_surface = SDL_LoadBMP("images/z.bmp");
+					break;
+				case '0':
+					temp_surface = SDL_LoadBMP("images/0.bmp");
+					break;
+				case '1':
+					temp_surface = SDL_LoadBMP("images/1.bmp");
+					break;
+				case '2':
+					temp_surface = SDL_LoadBMP("images/2.bmp");
+					break;
+				case '3':
+					temp_surface = SDL_LoadBMP("images/3.bmp");
+					break;
+				case '4':
+					temp_surface = SDL_LoadBMP("images/4.bmp");
+					break;
+				case '5':
+					temp_surface = SDL_LoadBMP("images/5.bmp");
+					break;
+				case '6':
+					temp_surface = SDL_LoadBMP("images/6.bmp");
+					break;
+				case '7':
+					temp_surface = SDL_LoadBMP("images/7.bmp");
+					break;
+				case '8':
+					temp_surface = SDL_LoadBMP("images/8.bmp");
+					break;
+				case '9':
+					temp_surface = SDL_LoadBMP("images/9.bmp");
+					break;
+				default:
+					nochar = true;
+					break;
+			}
+			
+			if(!nochar)
+			{
+				if(temp_surface == NULL)
+				{
+					printf("%s\n", SDL_GetError());
+				}
+				else
+				{
+					temp_texture = SDL_CreateTextureFromSurface(board -> renderer, temp_surface);
+					SDL_RenderCopy(board -> renderer, temp_texture, NULL, &borders);
+				}
+			}
+			
+			borders.x += 24;
+		}
+		borders.x = 34;
+		borders.y += 35;
+	}
+
+	SDL_FreeSurface(temp_surface);
+	SDL_DestroyTexture(temp_texture);
+	return;
+}
+
 /**
  * Renders the given board
  */
 void edison_render(edison_board* board)
 {
-	SDL_SetRenderDrawColor(board->renderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(board->renderer, 0, 50, 0, 0);
 	SDL_RenderClear(board->renderer);
 	edison_render_leds(board);
 	edison_render_buttons(board);
 	edison_render_sevensegs(board);
 	edison_render_dipswitches(board);
+	edison_render_lcd_display(board);
 	SDL_RenderPresent(board->renderer);
 }
 
 bool edison_poll_events(edison_board* board)
 {
 	SDL_Event e;
-	int dipswstatarr[4] = {0,0,0,0};
+	int *dipswstatarr; 
 	int i = 0;
 	int j = 0;
 	int x = 0;
 	int y = 0;
+
+	dipswstatarr = malloc(sizeof(int) * 4);
+
 	while(SDL_PollEvent(&e) != 0)
 	{
 		switch(e.type)
@@ -333,3 +523,5 @@ bool edison_poll_events(edison_board* board)
 	return true;
 	
 }
+
+

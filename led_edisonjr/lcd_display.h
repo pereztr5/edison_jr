@@ -8,10 +8,10 @@
 #define _LCD_DISPLAY_H_
 
 #include "miniat/miniat.h"
-//#include "SDL/edison_button.h"
+#include "SDL/edison_lcd_display.h"
 
-#define NUMBER_LINES 4
-#define CHARS_PER_LINE 16
+#define NUMBER_LINES 5
+#define CHARS_PER_LINE 20
 
 typedef struct lcd_display lcd_display;
 
@@ -43,7 +43,7 @@ extern void lcd_display_free(lcd_display *lcd);
  *
  */
 
-extern void lcd_display_clock(lcd_display *lcd);
+extern void lcd_display_clock(lcd_display *lcd, edison_lcd_display *edison_lcd);
 
 /*
  * Tries to connect the LCD display with the bus

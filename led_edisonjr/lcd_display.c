@@ -99,8 +99,10 @@ void lcd_display_free(lcd_display *lcd)
  *
  */
 
-void lcd_display_clock(lcd_display *lcd)
+void lcd_display_clock(lcd_display *lcd, edison_lcd_display *edison_lcd)
 {
+	char character;
+
 	if(lcd)
 	{
 		// 0x4040 - CURSOR X
@@ -111,7 +113,7 @@ void lcd_display_clock(lcd_display *lcd)
 
 			if((int)lcd -> bus -> data >= 0 && (int)lcd -> bus -> data < CHARS_PER_LINE)
 			{
-				// SET CURSOR X SDL FUNCTION
+				edison_lcd_display_set_cursor_x(edison_lcd, (int)lcd -> bus -> data);
 			}
 			
 		}
@@ -128,7 +130,7 @@ void lcd_display_clock(lcd_display *lcd)
 
 			if((int)lcd -> bus -> data >= 0 && (int)lcd -> bus -> data < NUMBER_LINES)
 			{
-				// SET CURSOR Y SDL FUNCTION
+				edison_lcd_display_set_cursor_y(edison_lcd, (int)lcd -> bus -> data);
 			}
 			
 		}
@@ -143,7 +145,9 @@ void lcd_display_clock(lcd_display *lcd)
 		{
 			lcd -> bus -> ack = M_HIGH;
 
-			// edison_sdl_write_display(edison_lcd, (char) lcd -> bus -> data);
+			character = (char)lcd -> bus -> data;
+			//printf("%c\n", character);
+			edison_lcd_display_set_char(edison_lcd, character);
 			
 		}
 		else if(lcd -> bus -> ack && ((lcd -> bus -> address == lcd -> address + 2)))
