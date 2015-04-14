@@ -1,7 +1,7 @@
 #ifndef _EDISON_UTIL_H_
 #define _EDISON_UTIL_H_
 
-#include "/usr/local/include/SDL2/SDL.h"
+#include "SDL2/SDL.h"
 /**
  * typedef for ease of use
  */

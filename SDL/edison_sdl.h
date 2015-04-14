@@ -1,5 +1,5 @@
 #ifndef _EDISON_SDL_H_
-#include "/usr/local/include/SDL2/SDL.h"
+#include "SDL2/SDL.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include "edison_util.h"

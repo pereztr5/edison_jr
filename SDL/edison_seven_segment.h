@@ -1,5 +1,5 @@
 #ifndef _EDISON_SEVEN_SEGMENT_H_
-#include "/usr/local/include/SDL2/SDL.h"
+#include "SDL2/SDL.h"
 #endif
 
 #ifndef _DEF_UINT_
