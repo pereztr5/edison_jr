@@ -265,7 +265,8 @@ void edison_render_lcd_display(edison_board* board)
 	SDL_Rect borders;
 	SDL_Texture *temp_texture;
 	SDL_Surface *temp_surface;
-	char temp_char;
+	char temp_char[2];
+	char path[13] = "";
 	bool nochar;
 	int i, j;
 
@@ -291,126 +292,25 @@ void edison_render_lcd_display(edison_board* board)
 	borders.w = 16;
 	borders.h = 26;
 
+	temp_char[1] = '\0';
+
 	for(i = 0; i < MAX_LINES; i++)
 	{
 		for(j = 0; j < MAX_CHARS; j++)
 		{
 			nochar = false;
-			temp_char = board -> edison_lcd -> display_content[MAX_CHARS * i + j];
+			temp_char[0] = board -> edison_lcd -> display_content[MAX_CHARS * i + j];
 
-			switch(temp_char)
+			if(temp_char[0] >= 97 && temp_char[0] <= 122)
 			{
-				case 'a':
-					temp_surface = SDL_LoadBMP("images/a.bmp");
-					break;
-				case 'b':
-					temp_surface = SDL_LoadBMP("images/b.bmp");
-					break;
-				case 'c':
-					temp_surface = SDL_LoadBMP("images/c.bmp");
-					break;
-				case 'd':
-					temp_surface = SDL_LoadBMP("images/d.bmp");
-					break;
-				case 'e':
-					temp_surface = SDL_LoadBMP("images/e.bmp");
-					break;
-				case 'f':
-					temp_surface = SDL_LoadBMP("images/f.bmp");
-					break;
-				case 'g':
-					temp_surface = SDL_LoadBMP("images/g.bmp");
-					break;
-				case 'h':
-					temp_surface = SDL_LoadBMP("images/h.bmp");
-					break;
-				case 'i':
-					temp_surface = SDL_LoadBMP("images/i.bmp");
-					break;
-				case 'j':
-					temp_surface = SDL_LoadBMP("images/j.bmp");
-					break;
-				case 'k':
-					temp_surface = SDL_LoadBMP("images/k.bmp");
-					break;
-				case 'l':
-					temp_surface = SDL_LoadBMP("images/l.bmp");
-					break;
-				case 'm':
-					temp_surface = SDL_LoadBMP("images/m.bmp");
-					break;
-				case 'n':
-					temp_surface = SDL_LoadBMP("images/n.bmp");
-					break;
-				case 'o':
-					temp_surface = SDL_LoadBMP("images/o.bmp");
-					break;
-				case 'p':
-					temp_surface = SDL_LoadBMP("images/p.bmp");
-					break;
-				case 'q':
-					temp_surface = SDL_LoadBMP("images/q.bmp");
-					break;
-				case 'r':
-					temp_surface = SDL_LoadBMP("images/r.bmp");
-					break;
-				case 's':
-					temp_surface = SDL_LoadBMP("images/s.bmp");
-					break;
-				case 't':
-					temp_surface = SDL_LoadBMP("images/t.bmp");
-					break;
-				case 'u':
-					temp_surface = SDL_LoadBMP("images/u.bmp");
-					break;
-				case 'v':
-					temp_surface = SDL_LoadBMP("images/v.bmp");
-					break;
-				case 'w':
-					temp_surface = SDL_LoadBMP("images/w.bmp");
-					break;
-				case 'x':
-					temp_surface = SDL_LoadBMP("images/x.bmp");
-					break;
-				case 'y':
-					temp_surface = SDL_LoadBMP("images/y.bmp");
-					break;
-				case 'z':
-					temp_surface = SDL_LoadBMP("images/z.bmp");
-					break;
-				case '0':
-					temp_surface = SDL_LoadBMP("images/0.bmp");
-					break;
-				case '1':
-					temp_surface = SDL_LoadBMP("images/1.bmp");
-					break;
-				case '2':
-					temp_surface = SDL_LoadBMP("images/2.bmp");
-					break;
-				case '3':
-					temp_surface = SDL_LoadBMP("images/3.bmp");
-					break;
-				case '4':
-					temp_surface = SDL_LoadBMP("images/4.bmp");
-					break;
-				case '5':
-					temp_surface = SDL_LoadBMP("images/5.bmp");
-					break;
-				case '6':
-					temp_surface = SDL_LoadBMP("images/6.bmp");
-					break;
-				case '7':
-					temp_surface = SDL_LoadBMP("images/7.bmp");
-					break;
-				case '8':
-					temp_surface = SDL_LoadBMP("images/8.bmp");
-					break;
-				case '9':
-					temp_surface = SDL_LoadBMP("images/9.bmp");
-					break;
-				default:
-					nochar = true;
-					break;
+				strcat(path, "images/");
+				strcat(path, temp_char);
+				strcat(path, ".bmp");
+				temp_surface = SDL_LoadBMP(path);
+			}
+			else
+			{
+				temp_surface = NULL;
 			}
 			
 			if(!nochar)
@@ -427,12 +327,13 @@ void edison_render_lcd_display(edison_board* board)
 			}
 			
 			borders.x += 24;
+			memset(path, 0, 13);
+			SDL_FreeSurface(temp_surface);
 		}
 		borders.x = 34;
 		borders.y += 35;
 	}
 
-	SDL_FreeSurface(temp_surface);
 	SDL_DestroyTexture(temp_texture);
 	return;
 }
