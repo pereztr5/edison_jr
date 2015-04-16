@@ -6,7 +6,7 @@ SDL2_LIBS = str.split(os.popen('sdl2-config --libs').read())
 
 INC = [ '#/vm/inc' ]
 
-LIBS = [ 'libminiat' ]
+LIBS = [ 'libminiat' , 'm' ]
 
 EDISON_CFLAGS = []
 EDISON_LIBPATH = str.split(env[ 'LIBPATH' ])

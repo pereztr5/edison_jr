@@ -124,6 +124,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 	int state = 0;
 	int xCenter, yCenter;
 	int xTemp, yTemp;
+	int i;
 
 	if(led)
 	{
@@ -197,7 +198,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 
 				yTemp += 2;
 
-				for(int i = 0; i < 8; i++)
+				for(i = 0; i < 8; i++)
 				{
 					if(xTemp < MATRIX_X_SIZE && xTemp >= 0 && yTemp < MATRIX_Y_SIZE && yTemp >= 0)
 					{
@@ -251,7 +252,7 @@ void led_block_clock(led_block *led, edison_led_matrix *matrix)
 				xTemp = xCenter - 2;
 				yTemp = yCenter - 2;
 
-				for(int i = 0; i < 16; i++)
+				for(i = 0; i < 16; i++)
 				{
 					edison_led_matrix_set_cursor_x(matrix, xTemp);
 					edison_led_matrix_set_cursor_y(matrix, yTemp);

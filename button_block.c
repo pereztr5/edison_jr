@@ -103,6 +103,7 @@ void button_block_free(button_block *buttons)
 void button_block_clock(button_block *buttons, edison_button *sdl_buttons[BUTTON_NUMBER])
 {
 	bool btnStates[BUTTON_NUMBER];
+	int i;
 
 	if(buttons)
 	{
@@ -112,7 +113,7 @@ void button_block_clock(button_block *buttons, edison_button *sdl_buttons[BUTTON
 		{
 			buttons -> bus -> ack = M_HIGH;
 
-			for(int i = 0; i < BUTTON_NUMBER; i++)
+			for(i = 0; i < BUTTON_NUMBER; i++)
 			{
 				btnStates[i] = edison_button_get_state(sdl_buttons[i]);
 			}
@@ -155,8 +156,9 @@ m_bus button_block_get_bus(button_block *buttons)
 int boolToDec(bool *states)
 {
 	int number;
+	int i;
 
-	for(int i = 0; i < (sizeof(states) / sizeof(states[0])); i++)
+	for(i = 0; i < (sizeof(states) / sizeof(states[0])); i++)
 	{
 		if(states[i])
 		{

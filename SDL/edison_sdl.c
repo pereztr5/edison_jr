@@ -157,8 +157,9 @@ edison_button* edison_get_button(edison_board* board, uint id)
 void edison_render_buttons(edison_board* board)
 {
 	// Render all buttons
-	
-	for(int i = 0; i < board->button_count; i++)
+	int i;
+
+	for(i = 0; i < board->button_count; i++)
 	{
 		edison_button* button = board->button_list[i];
 		SDL_Color temp = {255, 0, 0, 255};
@@ -266,6 +267,7 @@ void edison_render_lcd_display(edison_board* board)
 	SDL_Surface *temp_surface;
 	char temp_char;
 	bool nochar;
+	int i, j;
 
 	borders.x = 20;
 	borders.y = 45;
@@ -289,9 +291,9 @@ void edison_render_lcd_display(edison_board* board)
 	borders.w = 16;
 	borders.h = 26;
 
-	for(int i = 0; i < MAX_LINES; i++)
+	for(i = 0; i < MAX_LINES; i++)
 	{
-		for(int j = 0; j < MAX_CHARS; j++)
+		for(j = 0; j < MAX_CHARS; j++)
 		{
 			nochar = false;
 			temp_char = board -> edison_lcd -> display_content[MAX_CHARS * i + j];

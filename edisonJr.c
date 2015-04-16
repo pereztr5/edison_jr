@@ -10,7 +10,7 @@
 
 // Headers
 
-#include "/usr/local/include/SDL2/SDL.h"
+#include "SDL2/SDL.h"
 #include "miniat/miniat.h"
 #include "led_block.h"
 #include "button_block.h"
@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 
     int delay_ratio = 1;
     int cycles = 0;
+    int i;
 
     /* 
      * Creating the peripherals
@@ -73,8 +74,8 @@ int main(int argc, char *argv[])
      * Adding peripherals to the board and connecting them to the bus
      *
      */
-
-    for(int i = BUTTON_NUMBER - 1; i >= 0; i--)
+    
+    for(i = BUTTON_NUMBER - 1; i >= 0; i--)
     {
         buttons[i] = edison_create_button(795 - (i * 35), 400, 20, 20);
         edison_add_button(board, buttons[i]);

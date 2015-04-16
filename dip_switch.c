@@ -107,6 +107,7 @@ void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 {
 	bool switch_states[SWITCHES_NUMBER];
 	int *temp_states;
+	int i;
 	int j = SWITCHES_NUMBER - 1;
 
 	temp_states = malloc(sizeof(int) * SWITCHES_NUMBER);
@@ -121,7 +122,7 @@ void dip_switch_clock(dip_switch *switches, edison_dipswitch *edison_switches)
 
 			temp_states = edison_dipswitch_get_state(edison_switches);
 
-			for(int i = 0; i < SWITCHES_NUMBER; i++)
+			for(i = 0; i < SWITCHES_NUMBER; i++)
 			{
 				if(temp_states[j] == 1)
 				{
@@ -172,8 +173,9 @@ m_bus dip_switch_get_bus(dip_switch *switches)
 int boolToDecimal(bool *states)
 {
 	int number;
+	int i;
 
-	for(int i = 0; i < SWITCHES_NUMBER; i++)
+	for(i = 0; i < SWITCHES_NUMBER; i++)
 	{
 		if(states[i])
 		{
