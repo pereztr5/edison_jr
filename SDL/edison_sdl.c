@@ -285,6 +285,7 @@ void edison_render_lcd_display(edison_board* board)
 	{
 		temp_texture = SDL_CreateTextureFromSurface(board -> renderer, temp_surface);
 		SDL_RenderCopy(board -> renderer, temp_texture, NULL, &borders);
+		SDL_FreeSurface(temp_surface);
 	}
 
 	borders.x = 34;
@@ -311,6 +312,7 @@ void edison_render_lcd_display(edison_board* board)
 			else
 			{
 				temp_surface = NULL;
+				nochar = true;
 			}
 			
 			if(!nochar)
