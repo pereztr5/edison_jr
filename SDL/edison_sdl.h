@@ -9,6 +9,7 @@
 #include "edison_seven_segment.h"
 #include "edison_dipswitch.h"
 #include "edison_lcd_display.h"
+#include "edison_potentiometer.h"
 
 /**
  * Contains state information for the Edison Jr. board.
@@ -159,6 +160,22 @@ void edison_render_lcd_display(edison_board* board);
  * \returns void
  */
 void edison_add_lcd_display(edison_board *board, edison_lcd_display *lcd);
+
+/**
+ * Renders the Potentiometer on the board
+ * \param board The Edison Jr. board to render to.
+ * \returns void
+ */
+void edison_render_potentiometer(edison_board* board);
+
+
+/**
+ * Adds the Potentiometer to the board
+ * \param board The Edison Jr. board to add to.
+ * \param edison_pot The potentiometer to be added
+ * \returns void
+ */
+void edison_add_potentiometer(edison_board *board, edison_potentiometer *edison_pot);
 
 #define _EDISON_SDL_H_
 #endif

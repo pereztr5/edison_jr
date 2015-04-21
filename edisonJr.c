@@ -24,6 +24,7 @@
 #include "SDL/edison_button.h"
 #include "SDL/edison_dipswitch.h"
 #include "SDL/edison_lcd_display.h"
+#include "SDL/edison_potentiometer.h"
 
 // Memory addresses
 
@@ -62,6 +63,7 @@ int main(int argc, char *argv[])
     edison_led_matrix *matrix = edison_create_led_matrix(50, 550, 32, 16, 5, 0, 0, 255);
     edison_dipswitch *edison_switches = edison_create_dipswitch(550, 450, 80, 45);
     edison_lcd_display *edison_lcd = edison_create_lcd_display();
+    edison_potentiometer *edison_pot = edison_create_potentiometer();
     edison_button *buttons[BUTTON_NUMBER];
 
     led_block *ledBlock = led_block_new(LED_ADDRESS);
@@ -84,6 +86,7 @@ int main(int argc, char *argv[])
     edison_add_led_matrix(board, matrix);
     edison_add_dipswitch(board, edison_switches);
     edison_add_lcd_display(board, edison_lcd);
+    edison_add_potentiometer(board, edison_pot);
 
     led_block_bus_connector_set(ledBlock, miniat_conector_bus_get(iMiniAT));
     button_block_bus_connector_set(btnBlock, miniat_conector_bus_get(iMiniAT));
@@ -123,7 +126,7 @@ int main(int argc, char *argv[])
             lcd_display_clock(lcd, edison_lcd);    
         }
         
-        //delay_ratio = edison_potentiometer_get_value(edison_potentiometer);
+        delay_ratio = edison_potentiometer_get_pos(edison_pot);
         edison_render(board);
         cycles++;
     }

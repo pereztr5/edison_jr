@@ -14,6 +14,7 @@ struct edison_board
 	edison_dipswitch* dipswitch_list[EDISON_SWITCH_MAX];
 	uint dipswitch_count;
 	edison_lcd_display *edison_lcd;
+	edison_potentiometer *edison_pot;
 	SDL_Point board_size;
 	SDL_Window* window;
 	SDL_Surface* board_surface;
@@ -340,6 +341,84 @@ void edison_render_lcd_display(edison_board* board)
 	return;
 }
 
+void edison_render_potentiometer(edison_board* board)
+{
+	SDL_Rect borders, control;
+	SDL_Texture *temp_texture;
+	SDL_Surface *temp_surface;
+
+	borders.x = 20;
+	borders.y = 275;
+	borders.w = 40;
+	borders.h = 200;
+
+	control.x = board -> edison_pot -> hitbox.x;
+	control.w = board -> edison_pot -> hitbox.w;
+	control.h = board -> edison_pot -> hitbox.h;
+
+	temp_surface = SDL_LoadBMP("images/potentiometer.bmp");
+
+	switch(board -> edison_pot -> current_position)
+	{
+		case 1:
+			control.y = 450;
+			break;
+		case 2:
+			control.y = 431;
+			break;
+		case 3:
+			control.y = 412;
+			break;
+		case 4:
+			control.y = 393;
+			break;
+		case 5:
+			control.y = 374;
+			break;
+		case 6:	
+			control.y = 355;
+			break;
+		case 7:
+			control.y = 338;
+			break;
+		case 8:
+			control.y = 319;
+			break;
+		case 9:
+			control.y = 300;
+			break;
+		default:
+			control.y = 280;
+			break;
+	}
+
+	board -> edison_pot -> hitbox.y = control.y;
+				
+
+	if(temp_surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+	}
+	else
+	{
+		temp_texture = SDL_CreateTextureFromSurface(board -> renderer, temp_surface);
+		SDL_RenderCopy(board -> renderer, temp_texture, NULL, &borders);
+	}
+
+	SDL_SetRenderDrawColor(board -> renderer, 255, 200, 0, 255);
+	SDL_RenderFillRect(board -> renderer, &board -> edison_pot -> hitbox);
+
+	SDL_FreeSurface(temp_surface);
+	SDL_DestroyTexture(temp_texture);
+	return;
+}
+
+void edison_add_potentiometer(edison_board *board, edison_potentiometer *edison_pot)
+{
+	board -> edison_pot = edison_pot;
+	return;
+}
+
 /**
  * Renders the given board
  */
@@ -352,6 +431,7 @@ void edison_render(edison_board* board)
 	edison_render_sevensegs(board);
 	edison_render_dipswitches(board);
 	edison_render_lcd_display(board);
+	edison_render_potentiometer(board);
 	SDL_RenderPresent(board->renderer);
 }
 
@@ -404,6 +484,17 @@ bool edison_poll_events(edison_board* board)
 				}
 				edison_dipswitch_set_state(board->dipswitch_list[i], dipswstatarr);
 			}
+
+			// Potentiometer
+
+			SDL_Rect hitbox = board -> edison_pot -> hitbox;
+
+			if(x > hitbox.x && x < (hitbox.x + hitbox.w) && y > hitbox.y && y < (hitbox.y + hitbox.h))
+			{
+				board -> edison_pot -> potentiometer_mode = true;
+
+			}
+
 			break;
 
 			case SDL_MOUSEBUTTONUP:
@@ -422,7 +513,64 @@ bool edison_poll_events(edison_board* board)
 					edison_button_set_state(board->button_list[i], 0);
 				}
 			}
+
+			if(board -> edison_pot -> potentiometer_mode)
+			{
+				board -> edison_pot -> potentiometer_mode = 0;	
+			}
+
 			break;
+
+			case SDL_MOUSEMOTION:
+
+			if(board -> edison_pot -> potentiometer_mode)
+			{
+				SDL_GetMouseState(&x, &y);
+
+				if(y > 431)
+				{
+					board -> edison_pot -> current_position = 1;
+				}
+				else if(y > 412)
+				{
+					board -> edison_pot -> current_position = 2;	
+				}
+				else if(y > 393)
+				{
+					board -> edison_pot -> current_position = 3;	
+				}
+				else if(y > 374)
+				{
+					board -> edison_pot -> current_position = 4;	
+				}
+				else if(y > 355)
+				{
+					board -> edison_pot -> current_position = 5;	
+				}
+				else if(y > 338)
+				{
+					board -> edison_pot -> current_position = 6;	
+				}
+				else if(y > 319)
+				{
+					board -> edison_pot -> current_position = 7;	
+				}
+				else if(y > 300)
+				{
+					board -> edison_pot -> current_position = 8;	
+				}
+				else if(y > 280)
+				{
+					board -> edison_pot -> current_position = 9;	
+				}
+				else
+				{
+					board -> edison_pot -> current_position = 10;	
+				}
+			}
+			break;
+
+
 		}
 	}
 	return true;
