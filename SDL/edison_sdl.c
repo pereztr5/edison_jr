@@ -19,7 +19,10 @@ struct edison_board
 	SDL_Window* window;
 	SDL_Surface* board_surface;
 	SDL_Renderer* renderer;
-	edison_texture* bg_texture;
+	edison_texture* texture_cache[EDISON_TEXTURE_MAX];
+	uint texture_count;
+
+	char* base_path;
 };
 
 
@@ -41,7 +44,7 @@ edison_board* edison_create_board(uint size_x, uint size_y)
     {
     	// Init window
 		board->window = SDL_CreateWindow("Edison Jr.", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size_x, size_y, SDL_WINDOW_SHOWN);
-
+		board->base_path = SDL_GetBasePath();
 		if(board->window == NULL)
 		{
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -60,7 +63,7 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 			}
 			else
 			{
-
+				
             }
             SDL_Point size = {size_x, size_y};
 			board->board_size = size;
@@ -68,6 +71,7 @@ edison_board* edison_create_board(uint size_x, uint size_y)
 	}
 
 	board->led_count = 0;
+	board->texture_count = 0;
 	//board->switch_count = 0;
 
 	return board;
@@ -394,7 +398,6 @@ void edison_render_potentiometer(edison_board* board)
 
 	board -> edison_pot -> hitbox.y = control.y;
 				
-
 	if(temp_surface == NULL)
 	{
 		printf("%s\n", SDL_GetError());
@@ -419,6 +422,77 @@ void edison_add_potentiometer(edison_board *board, edison_potentiometer *edison_
 	return;
 }
 
+edison_texture* edison_load_texture(edison_board* board, char* texture)
+{
+	//printf("Attempting to load %s\n", texture);
+	//printf("base path is %s\n", board->base_path);
+	char* path = (char*)malloc(sizeof(char) * 512);
+	strcpy(path, board->base_path);
+	strcat(path, texture);
+	
+	//printf("image is at loc: \'%s'\n", path);
+
+	if(board->texture_count >= EDISON_TEXTURE_MAX)
+	{
+		//printf("Cannot load texture into cache: %s, the cache is full\n", path);
+		return NULL;
+	}
+	// look in cache
+
+	//printf("looking for texture %s in cache...\n", path);
+	int i;
+	for(i = 0; i < board->texture_count; i++)
+	{
+		edison_texture* t = board->texture_cache[i];
+		if(strcmp(t->name, path) == 0)
+		{
+			return t;
+		}
+	}
+
+	// Not in cache, so load from disk
+	//printf("Couldn't find in cache, loading from disk...\n");
+	edison_texture* tex = (edison_texture*)malloc(sizeof(edison_texture));
+	tex->name = path;
+
+	//printf("Loading file..\n");
+	SDL_Surface* temp_surface = SDL_LoadBMP(path);
+
+	if(!temp_surface)
+	{
+		//printf("%s\n", SDL_GetError());
+		return NULL;
+	} 
+	else
+	{
+		//printf("Creating texture from image!\n");
+		SDL_Texture* temp_texture = SDL_CreateTextureFromSurface(board->renderer, temp_surface); 
+
+		if(temp_texture == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			//free(tex);
+			tex = NULL;
+		}
+		else
+		{
+			tex->texture = temp_texture;
+		}
+		SDL_FreeSurface(temp_surface);
+	}
+	board->texture_cache[board->texture_count] = tex;
+	board->texture_count++;
+	return tex;
+}
+
+void edison_render_texture(edison_board* board, edison_texture* texture, SDL_Rect* src, SDL_Rect dst)
+{
+	if(texture != NULL)
+	{
+		SDL_RenderCopy(board->renderer, texture, src, dst);
+	}
+}
+
 /**
  * Renders the given board
  */
@@ -426,6 +500,10 @@ void edison_render(edison_board* board)
 {
 	SDL_SetRenderDrawColor(board->renderer, 0, 50, 0, 0);
 	SDL_RenderClear(board->renderer);
+
+	edison_texture* bg = edison_load_texture(board, "images/bg.bmp");
+	if(bg != NULL)
+		SDL_RenderCopy(board->renderer, bg->texture, NULL, NULL);
 	edison_render_leds(board);
 	edison_render_buttons(board);
 	edison_render_sevensegs(board);

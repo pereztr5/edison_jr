@@ -177,5 +177,23 @@ void edison_render_potentiometer(edison_board* board);
  */
 void edison_add_potentiometer(edison_board *board, edison_potentiometer *edison_pot);
 
+/**
+ * Loads a texture from memory, or from disk if it hasn't been loaded yet
+ * \param board The board containing the texture cache
+ * \param texture The file name of the texture we are loading
+ * \returns NULL if the texture file is not in chache and does not exist on disk,
+ * otherwise returns the texture
+ */
+edison_texture* edison_load_texture(edison_board* board, char* texture);
+
+/**
+ * Renders a texture, checking to see if the texture exists before rendering, simplfying calls elsewhere
+ * \param board The board we are rendering onto.
+ * \param texture The texture we are rendering
+ * \param src The Source rectangle in the texture to render
+ * \param dst The destination rectangle to render onto
+ */
+void edison_render_texture(edison_board* board, edison_texture* texture, SDL_Rect* src, SDL_Rect* dst);
+
 #define _EDISON_SDL_H_
 #endif
