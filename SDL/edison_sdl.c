@@ -485,7 +485,7 @@ edison_texture* edison_load_texture(edison_board* board, char* texture)
 	return tex;
 }
 
-void edison_render_texture(edison_board* board, edison_texture* texture, SDL_Rect* src, SDL_Rect dst)
+void edison_render_texture(edison_board* board, edison_texture* texture, SDL_Rect* src, SDL_Rect* dst)
 {
 	if(texture != NULL)
 	{
