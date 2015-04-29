@@ -270,8 +270,9 @@ void edison_render_lcd_display(edison_board* board)
 	SDL_Rect borders;
 	SDL_Texture *temp_texture;
 	SDL_Surface *temp_surface;
+	char *env_path;
 	char temp_char[2];
-	char path[13] = "";
+	char path[1000] = "";
 	bool nochar;
 	int i, j;
 
@@ -280,7 +281,11 @@ void edison_render_lcd_display(edison_board* board)
 	borders.w = 500;
 	borders.h = 200;
 
-	temp_surface = SDL_LoadBMP(LCD_IMAGE_PATH);
+	env_path = getenv("EDISON_PATH");
+	
+	strcat(path, env_path);
+	strcat(path, "display.bmp");
+	temp_surface = SDL_LoadBMP(path);
 
 	if(temp_surface == NULL)
 	{
@@ -304,12 +309,13 @@ void edison_render_lcd_display(edison_board* board)
 	{
 		for(j = 0; j < MAX_CHARS; j++)
 		{
+			memset(path, 0, 1000);
 			nochar = false;
+			strcat(path, env_path);
 			temp_char[0] = board -> edison_lcd -> display_content[MAX_CHARS * i + j];
 
-			if(temp_char[0] >= 97 && temp_char[0] <= 122)
+			if(temp_char[0] >= 47 && temp_char[0] <= 122)
 			{
-				strcat(path, "images/");
 				strcat(path, temp_char);
 				strcat(path, ".bmp");
 				temp_surface = SDL_LoadBMP(path);
@@ -334,7 +340,6 @@ void edison_render_lcd_display(edison_board* board)
 			}
 			
 			borders.x += 24;
-			memset(path, 0, 13);
 			SDL_FreeSurface(temp_surface);
 		}
 		borders.x = 34;
@@ -350,6 +355,14 @@ void edison_render_potentiometer(edison_board* board)
 	SDL_Rect borders, control;
 	SDL_Texture *temp_texture;
 	SDL_Surface *temp_surface;
+	char *env_path;
+	char path[1000] = "";
+
+	env_path = getenv("EDISON_PATH");
+	strcat(path, env_path);
+	strcat(path, "potentiometer.bmp");
+	temp_surface = SDL_LoadBMP(path);
+	memset(path, 0, 1000);
 
 	borders.x = 20;
 	borders.y = 275;
@@ -360,7 +373,7 @@ void edison_render_potentiometer(edison_board* board)
 	control.w = board -> edison_pot -> hitbox.w;
 	control.h = board -> edison_pot -> hitbox.h;
 
-	temp_surface = SDL_LoadBMP("images/potentiometer.bmp");
+	
 
 	switch(board -> edison_pot -> current_position)
 	{
@@ -398,6 +411,7 @@ void edison_render_potentiometer(edison_board* board)
 
 	board -> edison_pot -> hitbox.y = control.y;
 				
+
 	if(temp_surface == NULL)
 	{
 		printf("%s\n", SDL_GetError());
