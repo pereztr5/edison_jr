@@ -441,7 +441,7 @@ edison_texture* edison_load_texture(edison_board* board, char* texture)
 	//printf("Attempting to load %s\n", texture);
 	//printf("base path is %s\n", board->base_path);
 	char* path = (char*)malloc(sizeof(char) * 512);
-	strcpy(path, board->base_path);
+	strcpy(path, getenv("EDISON_PATH"));
 	strcat(path, texture);
 	
 	//printf("image is at loc: \'%s'\n", path);
@@ -503,7 +503,7 @@ void edison_render_texture(edison_board* board, edison_texture* texture, SDL_Rec
 {
 	if(texture != NULL)
 	{
-		SDL_RenderCopy(board->renderer, texture, src, dst);
+		SDL_RenderCopy(board->renderer, texture->texture, src, dst);
 	}
 }
 

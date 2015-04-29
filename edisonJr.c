@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
      * Adding peripherals to the board and connecting them to the bus
      *
      */
-
-    for(int i = BUTTON_NUMBER - 1; i >= 0; i--)
+    int i;
+    for(i = BUTTON_NUMBER - 1; i >= 0; i--)
     {
         buttons[i] = edison_create_button(795 - (i * 35), 400, 20, 20);
         edison_add_button(board, buttons[i]);
