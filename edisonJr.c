@@ -29,7 +29,10 @@
 // Memory addresses
 
 #define LED_ADDRESS         0x4000
-#define SEVSEG_ADDRESS      0x4010
+#define SEVSEG_ADDRESS_1      0x4010
+#define SEVSEG_ADDRESS_2      0x4011
+#define SEVSEG_ADDRESS_3      0x4012
+#define SEVSEG_ADDRESS_4      0x4013
 #define BUTTONS_ADDRESS     0x4020
 #define DIPSWITCH_ADDRESS   0x4030
 #define LCD_DISPLAY_ADDRESS 0x4040
@@ -51,7 +54,6 @@ int main(int argc, char *argv[])
 
     int delay_ratio = 1;
     int cycles = 0;
-    int i;
 
     /* 
      * Creating the peripherals
@@ -65,10 +67,17 @@ int main(int argc, char *argv[])
     edison_lcd_display *edison_lcd = edison_create_lcd_display();
     edison_potentiometer *edison_pot = edison_create_potentiometer();
     edison_button *buttons[BUTTON_NUMBER];
+    edison_sevenseg *sevseg1 = edison_create_sevenseg(175, 400, 35, 6, 2, 2, 6);
+    edison_sevenseg *sevseg2 = edison_create_sevenseg(250, 400, 35, 6, 2, 2, 6);
+    edison_sevenseg *sevseg3 = edison_create_sevenseg(325, 400, 35, 6, 2, 2, 6);
+    edison_sevenseg *sevseg4 = edison_create_sevenseg(400, 400, 35, 6, 2, 2, 6);
 
     led_block *ledBlock = led_block_new(LED_ADDRESS);
     button_block *btnBlock = button_block_new(BUTTONS_ADDRESS);
-    sevseg_display *sevsegDisplay = sevseg_display_new(SEVSEG_ADDRESS);
+    sevseg_display *sevsegDisplay_1 = sevseg_display_new(SEVSEG_ADDRESS_1);
+    sevseg_display *sevsegDisplay_2 = sevseg_display_new(SEVSEG_ADDRESS_2);
+    sevseg_display *sevsegDisplay_3 = sevseg_display_new(SEVSEG_ADDRESS_3);
+    sevseg_display *sevsegDisplay_4 = sevseg_display_new(SEVSEG_ADDRESS_4);
     dip_switch *switches = dip_switch_new(DIPSWITCH_ADDRESS);
     lcd_display *lcd = lcd_display_new(LCD_DISPLAY_ADDRESS);
 
@@ -76,8 +85,8 @@ int main(int argc, char *argv[])
      * Adding peripherals to the board and connecting them to the bus
      *
      */
-    
-    for(i = BUTTON_NUMBER - 1; i >= 0; i--)
+
+    for(int i = BUTTON_NUMBER - 1; i >= 0; i--)
     {
         buttons[i] = edison_create_button(795 - (i * 35), 400, 20, 20);
         edison_add_button(board, buttons[i]);
@@ -87,10 +96,17 @@ int main(int argc, char *argv[])
     edison_add_dipswitch(board, edison_switches);
     edison_add_lcd_display(board, edison_lcd);
     edison_add_potentiometer(board, edison_pot);
+    edison_add_sevenseg(board, sevseg1);
+    edison_add_sevenseg(board, sevseg2);
+    edison_add_sevenseg(board, sevseg3);
+    edison_add_sevenseg(board, sevseg4);
 
     led_block_bus_connector_set(ledBlock, miniat_conector_bus_get(iMiniAT));
     button_block_bus_connector_set(btnBlock, miniat_conector_bus_get(iMiniAT));
-    sevseg_display_bus_connector_set(sevsegDisplay, miniat_conector_bus_get(iMiniAT));
+    sevseg_display_bus_connector_set(sevsegDisplay_1, miniat_conector_bus_get(iMiniAT));
+    sevseg_display_bus_connector_set(sevsegDisplay_2, miniat_conector_bus_get(iMiniAT));
+    sevseg_display_bus_connector_set(sevsegDisplay_3, miniat_conector_bus_get(iMiniAT));
+    sevseg_display_bus_connector_set(sevsegDisplay_4, miniat_conector_bus_get(iMiniAT));
     dip_switch_bus_connector_set(switches, miniat_conector_bus_get(iMiniAT));
     lcd_display_bus_connector_set(lcd, miniat_conector_bus_get(iMiniAT));
 
@@ -121,7 +137,10 @@ int main(int argc, char *argv[])
             miniat_clock(iMiniAT);
             led_block_clock(ledBlock, matrix);
             button_block_clock(btnBlock, buttons);
-            sevseg_display_clock(sevsegDisplay);
+            sevseg_display_clock(sevseg1,sevsegDisplay_1);
+            sevseg_display_clock(sevseg2,sevsegDisplay_2);
+            sevseg_display_clock(sevseg3,sevsegDisplay_3);
+            sevseg_display_clock(sevseg4,sevsegDisplay_4);
             dip_switch_clock(switches, edison_switches);
             lcd_display_clock(lcd, edison_lcd);    
         }
@@ -134,11 +153,14 @@ int main(int argc, char *argv[])
     // Memory cleaning
 
     edison_destroy_board(board);
-    sevseg_display_free(sevsegDisplay);
+    sevseg_display_free(sevsegDisplay_1);
+    sevseg_display_free(sevsegDisplay_2);
+    sevseg_display_free(sevsegDisplay_3);
+    sevseg_display_free(sevsegDisplay_4);
     led_block_free(ledBlock);
     button_block_free(btnBlock);
     dip_switch_free(switches);
-    lcd_display_free(lcd);
+    //lcd_display_free(lcd);
     miniat_free(iMiniAT);
     return 0;
 }

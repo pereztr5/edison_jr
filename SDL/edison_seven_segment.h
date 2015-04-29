@@ -1,11 +1,7 @@
 #ifndef _EDISON_SEVEN_SEGMENT_H_
 #include "SDL2/SDL.h"
-#endif
 
-#ifndef _DEF_UINT_
-#define _DEF_UINT_
 typedef unsigned int uint;
-#endif
 
 /**
  * Contains state information for seven segment display
@@ -37,3 +33,6 @@ edison_sevenseg* edison_create_sevenseg(int pos_x, int pos_y, int width, int hei
  * \returns void
  */
 void edison_sevenseg_set_state(edison_sevenseg* sevenseg, int state[8]);
+
+#define _EDISON_SEVEN_SEGMENT_H_
+#endif

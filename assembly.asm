@@ -7,7 +7,10 @@
 .constant LEDCOLOR	0x4002
 .constant CIRCLE	0x4003
 .constant SQUARE	0x4004
-.constant SSD 		0x4010
+.constant SSD1 		0x4010
+.constant SSD2 		0x4011
+.constant SSD3 		0x4012
+.constant SSD4 		0x4013
 .constant READBTN	0x4020
 .constant READDIP	0x4030
 .constant LCDX		0x4040

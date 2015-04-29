@@ -1,14 +1,17 @@
 /*
-# C file for the 7 segment display peripheral
-#
-#
+* C file for the 7 segment display peripheral
+*
+*
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <miniat/miniat.h>
 #include "sevseg_display.h"
+#include "SDL/edison_seven_segment.h"
+
 
 struct sevseg_display
 {
@@ -18,10 +21,10 @@ struct sevseg_display
 };
 
 /*
-#Function for creating a new 7 segment display
-#
-#Allocates the memory space for the peripheral,
-#
+*Function for creating a new 7 segment display
+*
+*Allocates the memory space for the peripheral,
+*
 */
 
 sevseg_display *sevseg_display_new(m_uword address)
@@ -48,9 +51,9 @@ sevseg_display *sevseg_display_new(m_uword address)
 }
 
 /*
-#Connects the 7 segment display peripheral to the bus
-#
-#
+*Connects the 7 segment display peripheral to the bus
+*
+*
 */
 
 void sevseg_display_bus_connector_set(sevseg_display *display, m_bus *bus)
@@ -71,10 +74,10 @@ void sevseg_display_bus_connector_set(sevseg_display *display, m_bus *bus)
 }
 
 /*
-#Free's the 7 segment display
-#
-#The command free simply does the opposite of memory allocation (free's memory location)
-#
+*Free's the 7 segment display
+*
+*The command free simply does the opposite of memory allocation (free's memory location)
+*
 */
 
 void sevseg_display_free(sevseg_display *display)
@@ -91,33 +94,43 @@ void sevseg_display_free(sevseg_display *display)
 }
 
 /*
-#Updates the current state of the 7 segment display
-#
-#This is where is must update the graphics
-#
-#If display is set (peripheral was created), then
-#set the data that's being passed through the bus
-#to generate the correct graphics.
-#
+*Updates the current state of the 7 segment display
+*
+*This is where is must update the graphics
+*
+*If display is set (peripheral was created), then
+*set the data that's being passed through the bus
+*to generate the correct graphics.
+*
 */
 
-void sevseg_display_clock(sevseg_display *display)
+void sevseg_display_clock(edison_sevenseg *sevseg ,sevseg_display *display)
 {
+    int *state = malloc(sizeof(int)*8);
+    int i;
+
 	if(display)
 	{
-		if(display -> bus -> address == display -> address)
+		if((display -> bus -> req) && (display -> bus -> address == display -> address) && (!display -> bus -> ack))
 		{
-			//display -> bus -> data = data;
+            display -> bus -> ack = M_HIGH;
+
+            // Convert Decimal Number to binary and store into an array of size 8
+            state = decimal_to_binary(display -> bus -> data);
+
+            edison_sevenseg_set_state(sevseg, state);
 		}
+        else if(display -> bus -> ack && ((display -> bus -> address == display -> address)))
+        {
+            display -> bus -> ack = M_LOW;
+        }
 	}
 	return;
 }
 
 /*
-# Sets the seven segment display bus
-#
-#
-#
+* Sets the seven segment display bus
+*
 */
 
 void sevseg_display_set_bus(sevseg_display *display, m_bus bus)
@@ -127,4 +140,25 @@ void sevseg_display_set_bus(sevseg_display *display, m_bus bus)
 		memcpy(display -> bus, &bus, sizeof(bus));
 	}
 	return;
+}
+
+/*
+* Function to convert a decimal value to binary.
+* This returns an array
+*
+*/
+
+int *decimal_to_binary ( int segment_data )
+{
+
+    int *binary = malloc(sizeof(int)*8);
+    int *state = malloc(sizeof(int)*8);
+    int i;
+
+    for( i=0; i <8; i++) {
+        binary[i] = segment_data % 2;
+        segment_data = segment_data/2;
+    }
+
+    return binary;
 }

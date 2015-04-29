@@ -1,1 +1,6 @@
 .DS_Store
+1234.asm
+help_seg.asm
+seg_1.asm
+test_seg1.asm
+*.swp

@@ -8,6 +8,7 @@
 #define _SEVSEG_DISPLAY_H_
 
 #include "miniat/miniat.h"
+#include "SDL/edison_seven_segment.h"
 
 typedef struct sevseg_display sevseg_display;
 
@@ -39,7 +40,7 @@ extern void sevseg_display_free(sevseg_display *display);
 #
 */
 
-extern void sevseg_display_clock(sevseg_display *display);
+extern void sevseg_display_clock(edison_sevenseg *sevseg, sevseg_display *display);
 
 /*
 #Tries to connect the 7 segment display with the bus
@@ -60,5 +61,12 @@ extern void sevseg_display_bus_connector_set(sevseg_display *display, m_bus *bus
 */
 
 extern void sevseg_display_set_bus(sevseg_display *display, m_bus bus);
+
+/*
+ * Converts Decimal to Binary
+ *
+*/
+
+int *decimal_to_binary (int segment_data);
 
 #endif 
