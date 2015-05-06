@@ -24,4 +24,6 @@ for flag in SDL2_LIBS:
         LIBS.append(flag[2:])
 
 buildProgram("miniat_edisonJr", ["edisonJr.c", "led_block.c", "sevseg_display.c", "button_block.c", "dip_switch.c", "lcd_display.c", "SDL/edison_potentiometer.c","SDL/edison_lcd_display.c","SDL/edison_led.c", "SDL/edison_sdl.c", "SDL/edison_seven_segment.c", "SDL/edison_button.c", "SDL/edison_led_matrix.c", "SDL/edison_dipswitch.c"], CPPPATH=INC, LIBS=LIBS, CFLAGS=EDISON_CFLAGS, LIBPATH=EDISON_LIBPATH)
-buildMash('assembly.asm')
+buildMash('example1.asm')
+buildMash('hello_world.asm')
+buildMash('testssd.asm')

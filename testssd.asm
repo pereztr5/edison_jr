@@ -10,56 +10,156 @@
 .address 			0x2000
 
 !main
-    #MOVI R2, 0x0
-    MOVI R20, 0x8
-    MOVI R21, 0x32
+    # 0
+    MOVI R10, 0x3f
+    # 1
+    MOVI R11, 0x06
+    # 2
+    MOVI R12, 0x5b
+    # 3
+    MOVI R13, 0x4f
+    # 4
+    MOVI R14, 0x66
+    # 5
+    MOVI R15, 0x6d
+    # 6
+    MOVI R16, 0x7d
+    # 7
+    MOVI R17, 0x07
+    # 8
+    MOVI R18, 0x7f
+    # 9
+    MOVI R19, 0x67
+
+    STOR R10, [SSD1]
+    STOR R10, [SSD2]
+    STOR R10, [SSD3]
 !loop
-    MOVI R2, 0x1
-    STOR R2, [SSD1]
-    MOVI R2, 0x0
-    STOR R2, [SSD1]
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
 
-    MOVI R2, 0x1
-    STOR R2, [SSD2]
-    MOVI R2, 0x0
-    STOR R2, [SSD2]
+    STOR R11, [SSD3]
 
-    MOVI R2, 0x1
-    STOR R2, [SSD3]
-    MOVI R2, 0x0
-    STOR R2, [SSD3]
-    
-    MOVI R2, 0x1
-    STOR R2, [SSD4]
-!end_loop
-    SHL R2, R2, (1)
-    STOR R2, [SSD4]
-    BRAL R2, R20, [!end_loop]
-    MOVI R2, 0x0
-    STOR R2, [SSD4]
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
 
-    MOVI R2, 0x8
-    STOR R2, [SSD3]
-    MOVI R2, 0x0
-    STOR R2, [SSD3]
+    STOR R12, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R13, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R14, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R15, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R16, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R17, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R18, [SSD3]
+
+    STOR R10, [SSD4]
+    STOR R11, [SSD4]
+    STOR R12, [SSD4]
+    STOR R13, [SSD4]
+    STOR R14, [SSD4]
+    STOR R15, [SSD4]
+    STOR R16, [SSD4]
+    STOR R17, [SSD4]
+    STOR R18, [SSD4]
+    STOR R19, [SSD4]
+    STOR R10, [SSD4]
+
+    STOR R19, [SSD3]
 
 
-    MOVI R2, 0x8
-    STOR R2, [SSD2]
-    MOVI R2, 0x0
-    STOR R2, [SSD2]
-
-    MOVI R2, 0x8
-    STOR R2, [SSD1]
-!start_loop
-    SHL R2, R2, (1)
-    STOR R2, [SSD1]
-    BRAL R2, R21, [!start_loop]
-    MOVI R2, 0x0
-    STOR R2, [SSD1]
-
-    #ADD R2, R2, (1)
-    #MULT R2, R2, (2)
-    #SHL R2, R2, (1)
-    #BRAG R2, R20, [!main]
     BRA [!loop]
