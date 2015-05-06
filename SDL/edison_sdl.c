@@ -314,7 +314,7 @@ void edison_render_lcd_display(edison_board* board)
 			strcat(path, env_path);
 			temp_char[0] = board -> edison_lcd -> display_content[MAX_CHARS * i + j];
 
-			if(temp_char[0] >= 47 && temp_char[0] <= 122)
+			if( ( temp_char[0] >= 48 && temp_char[0] <= 57 ) || ( temp_char[0] >= 97 && temp_char[0] <= 122 ) )
 			{
 				strcat(path, temp_char);
 				strcat(path, ".bmp");
