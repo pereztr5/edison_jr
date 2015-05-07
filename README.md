@@ -1,6 +1,13 @@
 Edison Jr.
 ==========
 
+Edison Jr. provides a free, open source, and cross platform virtual alternative to physical experiment boards.
+
+It currently works on:  
+- Mac OSX
+- Linux (Tested on Ubuntu)
+
+
 #### Prerequisites
 
 For a complete guide to install MiniAT go to [miniat.org](http://www.miniat.org/getting-started/build)
