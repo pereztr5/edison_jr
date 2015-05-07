@@ -2,9 +2,10 @@ Edison Jr.
 ==========
 
 Edison Jr. provides a free, open source, and cross platform virtual alternative to physical experiment boards.
+![Image of Edison Jr.](Edison_Jr.png)
 
 It currently works on:  
-- Mac OSX
+- Mac OSX  
 - Linux (Tested on Ubuntu)
 
 
