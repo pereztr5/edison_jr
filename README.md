@@ -5,6 +5,7 @@ Edison Jr. provides a free, open source, and cross platform virtual alternative 
 ![Image of Edison Jr.](Edison_Jr.png)
 
 Please note is a fork from the original [here](https://bitbucket.org/miniat_amos/edison_jr). I wanted to have this project on GitHub.
+More information about this can be found [here](http://web.cs.sunyit.edu/~pereztr/classes/370.html).
 
 It currently works on:  
 - Mac OSX  
